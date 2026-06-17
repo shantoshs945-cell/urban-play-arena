@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Urban Play Arena – Box Cricket Kakinada</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green:#22c55e; --green-dim:#16a34a; --green-dark:#052e16;
+    --green-card:#0a1f0f; --green-border:#1a3d1f;
+    --bg:#060d07; --surface:#0d1f10;
+    --text:#e8f5e9; --text-muted:#6b8f71;
+    --yours:#f59e0b;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+
+  /* SPLASH */
+  #splash{position:fixed;inset:0;z-index:9999;background:#060d07;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease,visibility 0.8s ease;}
+  #splash.hide{opacity:0;visibility:hidden;}
+  .splash-logo{width:220px;height:220px;object-fit:contain;animation:splashPulse 1.5s ease-in-out infinite alternate;}
+  .splash-name{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:0.2em;color:var(--text);margin-top:1.2rem;text-transform:uppercase;animation:splashFadeIn 0.8s ease 0.3s both;}
+  .splash-bar{width:160px;height:3px;background:var(--green-border);border-radius:2px;margin-top:1.5rem;overflow:hidden;animation:splashFadeIn 0.8s ease 0.5s both;}
+  .splash-bar-fill{height:100%;width:0;background:var(--green);border-radius:2px;animation:splashLoad 2s ease 0.5s forwards;}
+  @keyframes splashPulse{from{transform:scale(0.95);filter:drop-shadow(0 0 8px rgba(34,197,94,0.2));}to{transform:scale(1.05);filter:drop-shadow(0 0 24px rgba(34,197,94,0.5));}}
+  @keyframes splashFadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes splashLoad{from{width:0;}to{width:100%;}}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;background:rgba(6,13,7,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--green-border);}
+  .nav-logo{display:flex;align-items:center;gap:0.6rem;}
+  .nav-logo img{width:38px;height:38px;object-fit:contain;}
+  .nav-logo span{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:0.05em;color:var(--text);}
+  .nav-links{display:flex;gap:2rem;list-style:none;}
+  .nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.9rem;font-weight:500;letter-spacing:0.04em;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--green);}
+  .nav-wa{display:flex;align-items:center;gap:0.5rem;background:var(--green);color:#000;font-weight:700;font-size:0.85rem;padding:0.5rem 1.1rem;border-radius:4px;text-decoration:none;letter-spacing:0.04em;transition:background 0.2s;}
+  .nav-wa:hover{background:#16a34a;}
+
+  /* CAROUSEL */
+  .carousel-wrap{width:100%;overflow:hidden;background:#000;padding-top:60px;}
+  .carousel-track{display:flex;animation:carouselScroll 18s linear infinite;}
+  .carousel-track:hover{animation-play-state:paused;}
+  .carousel-track img{width:420px;height:260px;object-fit:cover;flex-shrink:0;margin-right:12px;border-radius:4px;opacity:0.85;transition:opacity 0.3s;}
+  .carousel-track img:hover{opacity:1;}
+  @keyframes carouselScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+  /* HERO */
+  .hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(to bottom,rgba(6,13,7,0.2) 0%,rgba(6,13,7,0.65) 55%,rgba(6,13,7,1) 100%),url('turf4.jpg') center/cover no-repeat;}
+  .hero-content{position:relative;z-index:1;max-width:680px;}
+  .hero-badge{display:inline-flex;align-items:center;gap:0.4rem;border:1px solid var(--green);color:var(--green);font-size:0.72rem;font-weight:700;letter-spacing:0.12em;padding:0.35rem 0.8rem;border-radius:3px;margin-bottom:1.5rem;}
+  .hero-badge::before{content:'●';font-size:0.5rem;}
+  h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3rem,8vw,5.5rem);font-weight:900;line-height:0.95;letter-spacing:-0.01em;text-transform:uppercase;}
+  h1 .accent{color:var(--green);}
+  .hero-sub{margin:1.5rem 0 2rem;color:#a7c4aa;font-size:1rem;line-height:1.6;max-width:460px;}
+  .hero-meta{display:flex;gap:2rem;margin-bottom:2rem;}
+  .hero-meta span{display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:#a7c4aa;}
+  .hero-meta svg{color:var(--green);}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+  .btn-primary{display:inline-flex;align-items:center;gap:0.5rem;background:var(--green);color:#000;font-weight:800;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.85rem 1.6rem;border-radius:4px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s;}
+  .btn-primary:hover{background:#16a34a;}
+  .btn-secondary{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:var(--text);font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 1.6rem;border-radius:4px;border:1px solid var(--green-border);text-decoration:none;cursor:pointer;transition:border-color 0.2s,color 0.2s;}
+  .btn-secondary:hover{border-color:var(--green);color:var(--green);}
+
+  /* SECTIONS */
+  section{padding:5rem 3rem;}
+  .section-label{color:var(--green);font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;}
+  .section-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:0.5rem;}
+  .section-sub{color:var(--text-muted);font-size:0.95rem;margin-bottom:2.5rem;}
+
+  /* BOOKING */
+  #slots{background:var(--bg);}
+  .date-nav{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+  .date-nav button{background:none;border:1px solid var(--green-border);color:var(--text);width:36px;height:36px;border-radius:4px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s;}
+  .date-nav button:hover{border-color:var(--green);color:var(--green);}
+  .date-scroll{display:flex;gap:0.75rem;overflow-x:auto;padding-bottom:0.5rem;flex:1;scrollbar-width:none;}
+  .date-scroll::-webkit-scrollbar{display:none;}
+  .date-card{flex-shrink:0;width:90px;padding:0.8rem 0.5rem;border-radius:6px;border:1px solid var(--green-border);background:var(--green-card);text-align:center;cursor:pointer;transition:all 0.2s;}
+  .date-card:hover{border-color:var(--green);}
+  .date-card.active{background:var(--green);border-color:var(--green);color:#000;}
+  .date-card .day-label{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.7;}
+  .date-card .day-num{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;line-height:1;}
+  .date-card .month{font-size:0.7rem;font-weight:600;text-transform:uppercase;opacity:0.7;}
+  .date-card .free-slots{font-size:0.68rem;font-weight:700;margin-top:0.3rem;}
+  .date-card:not(.active) .free-slots{color:var(--green);}
+  .date-card.active .free-slots{color:#000;}
+  .date-display{font-size:0.9rem;color:var(--text-muted);margin-bottom:1.5rem;}
+  .slot-legend{display:flex;gap:1.5rem;margin-bottom:1.5rem;}
+  .legend-item{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--text-muted);}
+  .legend-dot{width:12px;height:12px;border-radius:2px;}
+  .legend-dot.avail{background:var(--green);}
+  .legend-dot.booked{background:#374151;}
+  .legend-dot.yours{background:var(--yours);}
+  .duration-toggle{display:flex;gap:0;margin-bottom:1.5rem;border:1px solid var(--green-border);border-radius:6px;overflow:hidden;width:fit-content;}
+  .dur-btn{padding:0.65rem 1.6rem;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--text-muted);transition:all 0.2s;}
+  .dur-btn.active{background:var(--green);color:#000;}
+  .slots-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+  .slot-card{border:1px solid var(--green-border);border-radius:6px;background:var(--green-card);padding:1rem 1.2rem;cursor:pointer;transition:all 0.2s;position:relative;}
+  .slot-card:hover:not(.booked-slot){border-color:var(--green);}
+  .slot-card.selected{border-color:var(--yours);background:rgba(245,158,11,0.08);}
+  .slot-card.booked-slot{opacity:0.4;cursor:not-allowed;border-color:#1f2937;}
+  .slot-status{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-align:right;margin-bottom:0.6rem;}
+  .slot-status.open{color:var(--green);}
+  .slot-status.booked{color:#6b7280;}
+  .slot-status.yours{color:var(--yours);}
+  .slot-time{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.04em;}
+  .slot-price{font-size:0.75rem;color:var(--green);margin-top:0.3rem;font-weight:600;}
+  .slot-header{display:flex;align-items:center;justify-content:space-between;}
+  .cancel-slot-btn{margin-top:0.75rem;width:100%;padding:0.45rem 0.75rem;background:transparent;border:1px solid #ef444466;border-radius:4px;color:#ef4444;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+  .cancel-slot-btn:hover{background:rgba(239,68,68,0.1);border-color:#ef4444;}
+
+  /* PAYMENT */
+  .payment-options{display:flex;flex-direction:column;gap:0.6rem;}
+  .payment-option{display:flex;align-items:center;gap:0.9rem;border:1px solid var(--green-border);border-radius:6px;padding:0.75rem 1rem;cursor:pointer;transition:all 0.2s;background:var(--green-dark);}
+  .payment-option:hover{border-color:var(--green);}
+  .payment-option.active{border-color:var(--green);background:rgba(34,197,94,0.08);}
+  .payment-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:6px;flex-shrink:0;background:#5f259f22;}
+  .payment-label{flex:1;}
+  .payment-name{font-weight:700;font-size:0.9rem;}
+  .payment-sub{font-size:0.72rem;color:var(--text-muted);margin-top:0.1rem;}
+  .payment-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:transparent;transition:all 0.2s;flex-shrink:0;}
+  .payment-option.active .payment-check{background:var(--green);border-color:var(--green);color:#000;font-weight:900;}
+  .amount-toggle{display:flex;gap:0.6rem;margin-top:0.5rem;}
+  .amt-btn{flex:1;padding:0.6rem;border:1px solid var(--green-border);border-radius:5px;background:transparent;color:var(--text-muted);font-size:0.8rem;font-weight:700;cursor:pointer;text-align:center;transition:all 0.2s;}
+  .amt-btn.active{border-color:var(--green);background:rgba(34,197,94,0.1);color:var(--green);}
+  .amt-btn span{display:block;font-size:0.7rem;font-weight:400;color:var(--text-muted);margin-top:0.1rem;}
+  .amt-btn.active span{color:var(--green);}
+
+  /* MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:#0d1f10;border:1px solid var(--green-border);border-radius:10px;padding:2rem;width:90%;max-width:480px;max-height:90vh;overflow-y:auto;}
+  .modal h2{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:900;text-transform:uppercase;margin-bottom:0.3rem;}
+  .modal-slot-info{color:var(--green);font-size:0.85rem;font-weight:600;margin-bottom:1.5rem;}
+  .form-group{margin-bottom:1rem;}
+  .form-group label{display:block;font-size:0.78rem;font-weight:700;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.4rem;text-transform:uppercase;}
+  .form-group input,.form-group select{width:100%;padding:0.7rem 1rem;background:var(--green-dark);border:1px solid var(--green-border);border-radius:5px;color:var(--text);font-size:0.9rem;font-family:'Barlow',sans-serif;outline:none;transition:border-color 0.2s;}
+  .form-group input:focus,.form-group select:focus{border-color:var(--green);}
+  .form-group select option{background:#0a1f0f;}
+  .modal-btns{display:flex;gap:0.75rem;margin-top:1.5rem;}
+  .modal-btns .btn-primary{flex:1;justify-content:center;}
+  .btn-cancel{flex:1;padding:0.85rem;border:1px solid var(--green-border);background:none;color:var(--text-muted);border-radius:4px;cursor:pointer;font-weight:700;font-size:0.85rem;transition:all 0.2s;}
+  .btn-cancel:hover{border-color:#ef4444;color:#ef4444;}
+  .confirm-box{display:none;text-align:center;}
+  .confirm-box.show{display:block;}
+  .confirm-icon{font-size:3rem;margin-bottom:1rem;}
+  .confirm-box h3{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;text-transform:uppercase;color:var(--green);margin-bottom:0.5rem;}
+  .confirm-box p{color:var(--text-muted);font-size:0.9rem;line-height:1.6;}
+  .confirm-details{background:var(--green-dark);border-radius:6px;padding:1rem;margin:1rem 0;text-align:left;}
+  .confirm-details div{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.4rem;}
+  .confirm-details div:last-child{margin-bottom:0;}
+  .confirm-details span:first-child{color:var(--text-muted);}
+  .confirm-details span:last-child{font-weight:700;color:var(--green);}
+
+  /* PRICING */
+  #pricing{background:var(--surface);}
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;}
+  .price-card{border:1px solid var(--green-border);border-radius:8px;background:var(--green-card);padding:1.8rem;position:relative;}
+  .price-card.featured{border-color:var(--green);}
+  .price-badge{position:absolute;top:-0.6rem;left:1.2rem;background:var(--green);color:#000;font-size:0.68rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:3px;}
+  .price-name{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.3rem;}
+  .price-time{color:var(--text-muted);font-size:0.82rem;margin-bottom:1.2rem;}
+  .price-amount{font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;font-weight:900;color:var(--text);}
+  .price-amount span{font-size:0.9rem;color:var(--text-muted);font-family:'Barlow',sans-serif;font-weight:400;}
+  .price-divider{height:1px;background:var(--green-border);margin:1.2rem 0;}
+  .price-btn{display:block;width:100%;text-align:center;padding:0.75rem;border:1px solid var(--green-border);border-radius:4px;color:var(--text-muted);font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;background:none;transition:all 0.2s;}
+  .price-btn:hover{border-color:var(--green);color:var(--green);}
+  .price-card.featured .price-btn{background:var(--green);color:#000;border-color:var(--green);}
+
+  /* FACILITIES */
+  #facilities{background:var(--bg);}
+  .facilities-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
+  .facility-card{border:1px solid var(--green-border);border-radius:8px;background:var(--green-card);padding:1.5rem;transition:border-color 0.2s;}
+  .facility-card:hover{border-color:var(--green);}
+  .facility-icon{width:40px;height:40px;color:var(--green);margin-bottom:1rem;}
+  .facility-name{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem;}
+  .facility-desc{color:var(--text-muted);font-size:0.85rem;line-height:1.5;}
+
+  /* CONTACT */
+  #contact{background:var(--surface);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+  .contact-info p{color:var(--text-muted);font-size:0.95rem;line-height:1.7;margin-bottom:1.5rem;}
+  .contact-items{display:flex;flex-direction:column;gap:1rem;}
+  .contact-item{display:flex;align-items:flex-start;gap:0.8rem;}
+  .contact-item svg{color:var(--green);flex-shrink:0;margin-top:2px;}
+  .contact-item div{font-size:0.9rem;}
+  .contact-item .ci-label{color:var(--text-muted);font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.2rem;}
+  .contact-wa-big{display:flex;align-items:center;justify-content:center;gap:0.6rem;background:#25d366;color:#000;font-weight:800;font-size:1rem;letter-spacing:0.06em;text-transform:uppercase;padding:1.1rem 2rem;border-radius:6px;text-decoration:none;margin-top:2rem;transition:background 0.2s;}
+  .contact-wa-big:hover{background:#1da851;}
+  .map-placeholder{border-radius:8px;overflow:hidden;border:1px solid var(--green-border);height:300px;background:var(--green-card);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.9rem;flex-direction:column;gap:0.5rem;}
+  .map-placeholder svg{color:var(--green);width:40px;height:40px;}
+
+  /* FOOTER */
+  footer{background:var(--bg);border-top:1px solid var(--green-border);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+  .footer-logo{display:flex;align-items:center;gap:0.6rem;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:0.05em;}
+  .footer-logo img{width:32px;height:32px;object-fit:contain;}
+  .footer-copy{color:var(--text-muted);font-size:0.8rem;}
+
+  /* FLOAT */
+  .float-chat{position:fixed;bottom:1.5rem;right:1.5rem;z-index:150;width:52px;height:52px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform 0.2s;}
+  .float-chat:hover{transform:scale(1.1);}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:5rem;right:1.5rem;z-index:300;background:var(--green);color:#000;font-weight:700;font-size:0.85rem;padding:0.75rem 1.2rem;border-radius:6px;transform:translateY(20px);opacity:0;transition:all 0.3s;pointer-events:none;}
+  .toast.show{transform:translateY(0);opacity:1;}
+
+  @media(max-width:768px){
+    nav{padding:0 1rem;}
+    .nav-links{display:none;}
+    section{padding:3rem 1.2rem;}
+    .hero{padding:0 1.2rem 4rem;}
+    .slots-grid{grid-template-columns:1fr 1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    footer{flex-direction:column;text-align:center;}
+    .carousel-track img{width:300px;height:190px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <img src="logo.png" class="splash-logo" alt="Urban Play Arena"/>
+  <div class="splash-name">Urban Play Arena</div>
+  <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="UPA Logo"/>
+    <span>URBAN PLAY ARENA</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#slots">Slots</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#facilities">Facilities</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://wa.me/917013534047" target="_blank" class="nav-wa">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    WhatsApp
+  </a>
+</nav>
+
+<!-- CAROUSEL -->
+<div class="carousel-wrap">
+  <div class="carousel-track">
+    <img src="turf2.jpg" alt="Urban Play Arena"/>
+    <img src="turf3.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/>
+    <img src="turf2.jpg" alt="Urban Play Arena"/>
+    <img src="turf3.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">BOOK SLOTS UP TO 14 DAYS IN ADVANCE</div>
+    <h1>YOUR PITCH.<br><span class="accent">YOUR GAME.</span><br>YOUR TIME.</h1>
+    <p class="hero-sub">Premium box cricket arena in the heart of Kakinada. Pick any date in the next 2 weeks, choose your time, and get confirmed instantly.</p>
+    <div class="hero-meta">
+      <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Open 6 AM – 11 PM</span>
+      <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Kakinada, AP</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#slots" class="btn-primary">BOOK A SLOT →</a>
+      <a href="https://wa.me/917013534047" target="_blank" class="btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Us
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="slots">
+  <div class="section-label">LIVE AVAILABILITY</div>
+  <div class="section-title">BOOK YOUR SLOT</div>
+  <p class="section-sub">Select a date — slots available up to 14 days ahead.</p>
+  <div class="date-nav">
+    <button onclick="shiftDates(-1)">&#8249;</button>
+    <div class="date-scroll" id="dateScroll"></div>
+    <button onclick="shiftDates(1)">&#8250;</button>
+  </div>
+  <div class="date-display" id="dateDisplay"></div>
+  <div class="slot-legend">
+    <div class="legend-item"><div class="legend-dot avail"></div>Available</div>
+    <div class="legend-item"><div class="legend-dot booked"></div>Booked</div>
+    <div class="legend-item"><div class="legend-dot yours"></div>Yours</div>
+  </div>
+  <div class="duration-toggle">
+    <button class="dur-btn active" id="dur1" onclick="setDuration(1,this)">1 HOUR</button>
+    <button class="dur-btn" id="dur2" onclick="setDuration(2,this)">2 HOURS</button>
+  </div>
+  <div class="slots-grid" id="slotsGrid"></div>
+</section>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div id="bookingForm">
+      <h2>Confirm Booking</h2>
+      <div class="modal-slot-info" id="modalSlotInfo"></div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="custName" placeholder="Your name"/>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="custPhone" placeholder="+91 XXXXX XXXXX"/>
+      </div>
+      <div class="form-group">
+        <label>Number of Players</label>
+        <select id="custPlayers">
+          <option value="5">5 Players</option>
+          <option value="6">6 Players</option>
+          <option value="7">7 Players</option>
+          <option value="8">8 Players</option>
+          <option value="9">9 Players</option>
+          <option value="10">10 Players</option>
+          <option value="11">11 Players</option>
+          <option value="12">12 Players</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Payment Method</label>
+        <div class="payment-options">
+          <div class="payment-option active" id="pay-phonepay">
+            <div class="payment-icon">
+              <svg width="22" height="22" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#5f259f"/><path d="M10 28V14a2 2 0 012-2h10a6 6 0 010 12H16v4H10z" fill="white"/><circle cx="22" cy="20" r="3" fill="#5f259f"/></svg>
+            </div>
+            <div class="payment-label">
+              <div class="payment-name">PhonePe</div>
+              <div class="payment-sub">UPI Payment</div>
+            </div>
+            <div class="payment-check">✓</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Payment Amount</label>
+        <div class="amount-toggle">
+          <div class="amt-btn active" id="amt-full" onclick="selectAmount('full')">
+            FULL PAYMENT
+            <span id="amt-full-label">₹0</span>
+          </div>
+          <div class="amt-btn" id="amt-half" onclick="selectAmount('half')">
+            HALF (ADVANCE)
+            <span id="amt-half-label">₹0</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="confirmBooking()">CONFIRM BOOKING</button>
+      </div>
+    </div>
+    <div class="confirm-box" id="confirmBox">
+      <div class="confirm-icon">🏏</div>
+      <h3>Slot Confirmed!</h3>
+      <p>Your booking is confirmed. See you on the pitch!</p>
+      <div class="confirm-details" id="confirmDetails"></div>
+      <div class="modal-btns">
+        <button class="btn-primary" style="width:100%;justify-content:center" onclick="closeModal()">DONE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CANCEL MODAL -->
+<div class="modal-overlay" id="cancelOverlay">
+  <div class="modal">
+    <div id="cancelForm">
+      <div style="text-align:center;margin-bottom:1.2rem;">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">❌</div>
+        <h2 style="color:#ef4444;">Cancel Booking?</h2>
+      </div>
+      <div class="modal-slot-info" id="cancelSlotInfo"></div>
+      <p style="color:var(--text-muted);font-size:0.88rem;line-height:1.6;margin-bottom:1.5rem;">Are you sure? The slot will become available to others.</p>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeCancelModal()">Keep Booking</button>
+        <button class="btn-primary" style="background:#ef4444;flex:1;justify-content:center;" onclick="confirmCancel()">YES, CANCEL IT</button>
+      </div>
+    </div>
+    <div class="confirm-box" id="cancelDoneBox">
+      <div class="confirm-icon">✅</div>
+      <h3 style="color:#ef4444;">Booking Cancelled</h3>
+      <p style="color:var(--text-muted);">Your slot has been cancelled successfully.</p>
+      <div class="modal-btns" style="margin-top:1.5rem;">
+        <button class="btn-primary" style="width:100%;justify-content:center" onclick="closeCancelModal()">DONE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">TRANSPARENT PRICING</div>
+  <div class="section-title">RATES &amp; PACKAGES</div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Weekday Morning</div>
+      <div class="price-time">Mon–Fri · 6 AM – 5 PM</div>
+      <div class="price-amount">₹700 <span>per hour</span></div>
+      <div class="price-divider"></div>
+      <a href="#slots" class="price-btn">BOOK NOW</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-name">Weekday Evening</div>
+      <div class="price-time">Mon–Fri · 5 PM – 11 PM</div>
+      <div class="price-amount">₹900 <span>per hour</span></div>
+      <div class="price-divider"></div>
+      <a href="#slots" class="price-btn">BOOK NOW</a>
+    </div>
+    <div class="price-card">
+      <div class="price-name">Weekend Morning</div>
+      <div class="price-time">Sat–Sun · 6 AM – 5 PM</div>
+      <div class="price-amount">₹700 <span>per hour</span></div>
+      <div class="price-divider"></div>
+      <a href="#slots" class="price-btn">BOOK NOW</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">PEAK</div>
+      <div class="price-name">Weekend Evening</div>
+      <div class="price-time">Sat–Sun · 5 PM – 11 PM</div>
+      <div class="price-amount">₹1,000 <span>per hour</span></div>
+      <div class="price-divider"></div>
+      <a href="#slots" class="price-btn">BOOK NOW</a>
+    </div>
+  </div>
+</section>
+
+<!-- FACILITIES -->
+<section id="facilities">
+  <div class="section-label">WORLD-CLASS</div>
+  <div class="section-title">FACILITIES</div>
+  <div class="facilities-grid">
+    <div class="facility-card">
+      <svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <div class="facility-name">Floodlit Ground</div>
+      <div class="facility-desc">Full LED lighting for day &amp; night play — no excuses to stop.</div>
+    </div>
+    <div class="facility-card">
+      <svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div class="facility-name">Safety Nets</div>
+      <div class="facility-desc">High-quality netting on all six sides for maximum protection.</div>
+    </div>
+    <div class="facility-card">
+      <svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <div class="facility-name">Changing Rooms</div>
+      <div class="facility-desc">Clean locker rooms with showers available after your match.</div>
+    </div>
+    <div class="facility-card">
+      <svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+      <div class="facility-name">Equipment Rental</div>
+      <div class="facility-desc">Bats, pads, gloves &amp; helmets available at the front desk.</div>
+    </div>
+    <div class="facility-card">
+      <svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <div class="facility-name">Turf Pitch</div>
+      <div class="facility-desc">Premium artificial turf — consistent bounce guaranteed.</div>
+    </div>
+    <div class="facility-card">
+      <svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.12 1.21 2 2 0 012.1 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.09z"/></svg>
+      <div class="facility-name">Refreshments</div>
+      <div class="facility-desc">Snack counter &amp; water station on-site to keep you fuelled.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">FIND US</div>
+  <div class="section-title">CONTACT &amp; LOCATION</div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p>Located in Kakinada, Urban Play Arena is open 7 days a week. Walk in or book online.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div><div class="ci-label">Hours</div><div>6:00 AM – 11:00 PM, Daily</div></div>
+        </div>
+        <div class="contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><div class="ci-label">Address</div><div>Urban Play Arena, Kakinada, Andhra Pradesh</div></div>
+        </div>
+        <div class="contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.12 1.21 2 2 0 012.1 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.09z"/></svg>
+          <div><div class="ci-label">Phone</div><div>+91 70135 34047</div></div>
+        </div>
+      </div>
+      <a href="https://wa.me/917013534047" target="_blank" class="contact-wa-big">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        CHAT ON WHATSAPP
+      </a>
+    </div>
+    <div class="map-placeholder">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Map coming soon</span>
+      <span style="font-size:0.75rem;color:#374151">Google Maps embed will be added</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="logo.png" alt="UPA"/>
+    URBAN PLAY ARENA
+  </div>
+  <div class="footer-copy">© 2026 Urban Play Arena, Kakinada. All rights reserved.</div>
+</footer>
+
+<!-- FLOAT WHATSAPP -->
+<a href="https://wa.me/917013534047" target="_blank" class="float-chat">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  window.addEventListener('load',()=>{
+    setTimeout(()=>document.getElementById('splash').classList.add('hide'),2600);
+  });
+
+  const ALL_SLOTS=[
+    '06:00 AM – 07:00 AM','07:00 AM – 08:00 AM','08:00 AM – 09:00 AM',
+    '09:00 AM – 10:00 AM','10:00 AM – 11:00 AM','11:00 AM – 12:00 PM',
+    '12:00 PM – 01:00 PM','01:00 PM – 02:00 PM','02:00 PM – 03:00 PM',
+    '03:00 PM – 04:00 PM','04:00 PM – 05:00 PM','05:00 PM – 06:00 PM',
+    '06:00 PM – 07:00 PM','07:00 PM – 08:00 PM','08:00 PM – 09:00 PM',
+    '09:00 PM – 10:00 PM','10:00 PM – 11:00 PM'
+  ];
+
+  let selectedDate=0,dateOffset=0,currentDuration=1;
+  let pendingSlot=null,pendingSlotIndex=-1,selectedAmount='full',slotToCancel=null;
+  let currentSlotData=[];
+
+  function getStoredPhone(){return sessionStorage.getItem('upa_phone')||'';}
+  function setStoredPhone(phone){sessionStorage.setItem('upa_phone',phone);}
+
+  async function apiGet(path){
+    const res=await fetch(path);
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error||'Request failed');
+    return data;
+  }
+
+  async function apiPost(path,body){
+    const res=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error||'Request failed');
+    return data;
+  }
+
+  function getDateKey(offset){const d=new Date();d.setDate(d.getDate()+offset);return d.toISOString().split('T')[0];}
+  function formatDate(offset){const d=new Date();d.setDate(d.getDate()+offset);return d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
+
+  function getRate(dateOffset,slotIndex,hours){
+    const d=new Date();d.setDate(d.getDate()+dateOffset);
+    const isWeekend=d.getDay()===0||d.getDay()===6;
+    const isEvening=slotIndex>=11;
+    const rate=isEvening?(isWeekend?1000:900):700;
+    return rate*hours;
+  }
+
+  function blockLabel(startIdx,hours){
+    if(hours===1)return ALL_SLOTS[startIdx];
+    const endPart=(ALL_SLOTS[startIdx+hours-1]||'').split('–')[1]?.trim();
+    const startPart=ALL_SLOTS[startIdx].split('–')[0].trim();
+    return `${startPart} – ${endPart}`;
+  }
+
+  function blockStatus(startIdx,hours){
+    let hasBooked=false,hasMine=false,bookingId=null;
+    for(let i=0;i<hours;i++){
+      const slot=currentSlotData[startIdx+i];
+      if(!slot)return{status:'booked'};
+      if(slot.status==='booked')hasBooked=true;
+      if(slot.status==='yours'){hasMine=true;bookingId=slot.booking_id;}
+    }
+    if(hasBooked)return{status:'booked'};
+    if(hasMine)return{status:'yours',bookingId};
+    return{status:'open'};
+  }
+
+  async function buildDates(){
+    try{
+      const phone=getStoredPhone();
+      const data=await apiGet(`/api/dates?start_offset=${dateOffset}&count=14&phone=${encodeURIComponent(phone)}`);
+      const scroll=document.getElementById('dateScroll');
+      scroll.innerHTML='';
+      data.dates.forEach(d=>{
+        const card=document.createElement('div');
+        card.className='date-card'+(d.offset===selectedDate?' active':'');
+        card.innerHTML=`<div class="day-label">${d.is_today?'TODAY':d.day}</div><div class="day-num">${d.num}</div><div class="month">${d.month}</div><div class="free-slots">${d.free_count} free</div>`;
+        card.onclick=()=>{selectedDate=d.offset;buildDates();buildSlots();updateDateDisplay();};
+        scroll.appendChild(card);
+      });
+    }catch(err){showToast(err.message);}
+  }
+
+  function updateDateDisplay(){document.getElementById('dateDisplay').textContent=formatDate(selectedDate);}
+
+  function shiftDates(dir){
+    dateOffset=Math.max(0,Math.min(dateOffset+dir*7,7));
+    buildDates();
+  }
+
+  function setDuration(d,el){
+    currentDuration=d;
+    document.querySelectorAll('.dur-btn').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+    buildSlots();
+  }
+
+  async function buildSlots(){
+    const grid=document.getElementById('slotsGrid');
+    grid.innerHTML='';
+    try{
+      const phone=getStoredPhone();
+      const dateKey=getDateKey(selectedDate);
+      const data=await apiGet(`/api/slots?date=${dateKey}&phone=${encodeURIComponent(phone)}`);
+      currentSlotData=data.slots;
+      const maxIdx=ALL_SLOTS.length-(currentDuration===2?1:0);
+      for(let i=0;i<maxIdx;i++){
+        const slot=ALL_SLOTS[i];
+        const slotLabel=blockLabel(i,currentDuration);
+        const info=blockStatus(i,currentDuration);
+        const isBooked=info.status==='booked';
+        const isMine=info.status==='yours';
+        const rate=getRate(selectedDate,i,currentDuration);
+        const card=document.createElement('div');
+        card.className='slot-card'+(isBooked?' booked-slot':'')+(isMine?' selected':'');
+        card.innerHTML=`
+          <div class="slot-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${isMine?'#f59e0b':isBooked?'#6b7280':'#22c55e'}" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="slot-status ${isMine?'yours':isBooked?'booked':'open'}">${isMine?'YOURS':isBooked?'BOOKED':'OPEN'}</div>
+          </div>
+          <div class="slot-time">${slotLabel}</div>
+          <div class="slot-price">₹${rate.toLocaleString('en-IN')}</div>
+          ${isMine?`<button class="cancel-slot-btn" data-booking-id="${info.bookingId}">✕ Cancel Booking</button>`:''}
+        `;
+        if(isMine){
+          card.querySelector('.cancel-slot-btn').onclick=(event)=>{
+            openCancelModal(slot,i,info.bookingId,event);
+          };
+        }
+        if(!isBooked&&!isMine)card.onclick=()=>openModal(slot,i);
+        grid.appendChild(card);
+      }
+    }catch(err){showToast(err.message);}
+  }
+
+  function openModal(slot,slotIdx){
+    pendingSlot=slot;pendingSlotIndex=slotIdx;selectedAmount='full';
+    document.getElementById('amt-full').classList.add('active');
+    document.getElementById('amt-half').classList.remove('active');
+    const storedPhone=getStoredPhone();
+    if(storedPhone)document.getElementById('custPhone').value=storedPhone;
+    const rate=getRate(selectedDate,slotIdx,currentDuration);
+    document.getElementById('amt-full-label').textContent='₹'+rate.toLocaleString('en-IN');
+    document.getElementById('amt-half-label').textContent='₹'+(rate/2).toLocaleString('en-IN');
+    document.getElementById('modalSlotInfo').textContent=`📅 ${formatDate(selectedDate)} · ${blockLabel(slotIdx,currentDuration)} · ${currentDuration}hr`;
+    document.getElementById('bookingForm').style.display='block';
+    document.getElementById('confirmBox').classList.remove('show');
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function closeModal(){
+    document.getElementById('modalOverlay').classList.remove('open');
+    pendingSlot=null;pendingSlotIndex=-1;
+    document.getElementById('custName').value='';
+    document.getElementById('custPhone').value='';
+  }
+
+  function selectAmount(a){
+    selectedAmount=a;
+    document.getElementById('amt-full').classList.toggle('active',a==='full');
+    document.getElementById('amt-half').classList.toggle('active',a==='half');
+  }
+
+  async function confirmBooking(){
+    const name=document.getElementById('custName').value.trim();
+    const phone=document.getElementById('custPhone').value.trim();
+    if(!name||!phone){showToast('Please fill all fields');return;}
+    if(phone.replace(/\D/g,'').length<10){showToast('Enter a valid phone number');return;}
+    try{
+      const booking=await apiPost('/api/bookings',{
+        date:getDateKey(selectedDate),
+        slot_index:pendingSlotIndex,
+        duration:currentDuration,
+        name,
+        phone,
+        players:parseInt(document.getElementById('custPlayers').value,10),
+        payment_method:'phonepe',
+        payment_type:selectedAmount
+      });
+      setStoredPhone(phone);
+      document.getElementById('confirmDetails').innerHTML=`
+        <div><span>Name</span><span>${booking.name}</span></div>
+        <div><span>Phone</span><span>${booking.phone}</span></div>
+        <div><span>Date</span><span>${formatDate(selectedDate)}</span></div>
+        <div><span>Slot</span><span>${booking.slot_label}</span></div>
+        <div><span>Duration</span><span>${booking.duration} Hour${booking.duration>1?'s':''}</span></div>
+        <div><span>Total Rate</span><span>₹${booking.total_rate.toLocaleString('en-IN')}</span></div>
+        <div><span>Amount Paid</span><span>₹${booking.amount_paid.toLocaleString('en-IN')} (${booking.payment_type==='full'?'Full':'50% Advance'})</span></div>
+        <div><span>Payment</span><span>📲 PhonePe (UPI)</span></div>
+      `;
+      document.getElementById('bookingForm').style.display='none';
+      document.getElementById('confirmBox').classList.add('show');
+      buildDates();buildSlots();
+    }catch(err){showToast(err.message);}
+  }
+
+  function openCancelModal(slot,slotIdx,bookingId,event){
+    event.stopPropagation();
+    slotToCancel={slot,slotIdx,bookingId};
+    document.getElementById('cancelSlotInfo').textContent=`📅 ${formatDate(selectedDate)} · ${blockLabel(slotIdx,currentDuration)}`;
+    document.getElementById('cancelForm').style.display='block';
+    document.getElementById('cancelDoneBox').classList.remove('show');
+    document.getElementById('cancelOverlay').classList.add('open');
+  }
+
+  function closeCancelModal(){
+    document.getElementById('cancelOverlay').classList.remove('open');
+    slotToCancel=null;
+  }
+
+  async function confirmCancel(){
+    if(!slotToCancel)return;
+    const phone=getStoredPhone()||document.getElementById('custPhone').value.trim();
+    if(!phone){showToast('Enter your phone number to cancel');return;}
+    try{
+      await apiPost(`/api/bookings/${slotToCancel.bookingId}/cancel`,{phone});
+      setStoredPhone(phone);
+      document.getElementById('cancelForm').style.display='none';
+      document.getElementById('cancelDoneBox').classList.add('show');
+      buildDates();buildSlots();
+    }catch(err){showToast(err.message);}
+  }
+
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2500);
+  }
+
+  document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+  document.getElementById('cancelOverlay').addEventListener('click',function(e){if(e.target===this)closeCancelModal();});
+
+  buildDates();buildSlots();updateDateDisplay();
+</script>
+</body>
+</html>
