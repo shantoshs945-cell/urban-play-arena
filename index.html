@@ -177,7 +177,6 @@
   .toast.error{background:#ef4444;color:#fff;}
   @media(max-width:768px){nav{padding:0 1rem;}.nav-links{display:none;}section{padding:3rem 1.2rem;}.hero{padding:0 1.2rem 4rem;}.slots-grid{grid-template-columns:1fr 1fr;}.contact-grid{grid-template-columns:1fr;}footer{flex-direction:column;text-align:center;}.carousel-track img{width:300px;height:190px;}}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -207,9 +206,9 @@
 <div class="carousel-wrap">
   <div class="carousel-track">
     <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf1.jpg" alt="Urban Play Arena"/>
     <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf1.jpg" alt="Urban Play Arena"/>
   </div>
 </div>
 
@@ -628,18 +627,13 @@
       document.getElementById('bookingForm').style.display='none';
       document.getElementById('confirmBox').classList.add('show');
 
-      // Generate QR code
+      // Generate QR code using Google Charts API
       const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR`;
       document.getElementById('qrAmount').textContent = '₹' + amount.toLocaleString('en-IN');
       document.getElementById('phonepayBtn').href = upiUrl;
       document.getElementById('anyUpiBtn').href = upiUrl;
       const qrDiv = document.getElementById('qrcode');
-      qrDiv.innerHTML = '';
-      try {
-        new QRCode(qrDiv, {text: upiUrl, width: 160, height: 160, colorDark:'#000000', colorLight:'#ffffff'});
-      } catch(e) {
-        qrDiv.innerHTML = `<div style="width:160px;height:160px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#666;text-align:center;">Use buttons below to pay</div>`;
-      }
+      qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUrl)}" width="160" height="160" alt="UPI QR Code" style="display:block;"/>`;
 
       buildSlots();
     } catch(e) {
