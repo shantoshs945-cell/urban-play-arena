@@ -206,7 +206,7 @@
 <div class="carousel-wrap">
   <div class="carousel-track">
     <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
     <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
     <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
   </div>
@@ -292,32 +292,40 @@
       </div>
     </div>
     <div class="confirm-box" id="confirmBox">
-      <div style="text-align:center;margin-bottom:1rem;">
-        <div style="font-size:1.1rem;font-weight:800;color:#a78bfa;margin-bottom:0.3rem;letter-spacing:0.04em;">Pay via PhonePe / UPI</div>
-        <div style="font-size:0.82rem;color:var(--text-muted);">Scan QR or tap the button to pay</div>
+      <div class="confirm-icon">🏏</div>
+      <h3>Slot Confirmed!</h3>
+      <p>Your slot is booked! Complete payment to confirm.</p>
+      <div class="confirm-details" id="confirmDetails"></div>
+      <div class="modal-btns" style="margin-top:1rem;">
+        <button class="btn-primary" id="proceedPayBtn" style="width:100%;justify-content:center;" onclick="proceedToPayment()">PAY NOW →</button>
       </div>
-      <div style="display:flex;justify-content:center;margin-bottom:1rem;">
-        <div style="background:#fff;padding:12px;border-radius:10px;display:inline-block;">
-          <div id="qrcode"></div>
-        </div>
-      </div>
-      <div style="background:var(--green-dark);border-radius:8px;padding:1rem;text-align:center;margin-bottom:1rem;">
-        <div style="font-size:0.7rem;color:var(--text-muted);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;">Pay Amount</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;color:var(--green);" id="qrAmount">₹0</div>
-        <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.3rem;">UPI ID: <strong style="color:var(--text);">7013534047@axl</strong></div>
-      </div>
-      <div style="display:flex;gap:0.75rem;margin-bottom:1rem;">
-        <a id="phonepayBtn" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;background:#5f259f;color:#fff;font-weight:700;font-size:0.82rem;padding:0.75rem;border-radius:6px;text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;">
-          <svg width="16" height="16" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#fff" fill-opacity="0.2"/><path d="M10 28V14a2 2 0 012-2h10a6 6 0 010 12H16v4H10z" fill="white"/><circle cx="22" cy="20" r="3" fill="#5f259f"/></svg>
-          Open PhonePe
-        </a>
-        <a id="anyUpiBtn" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;background:#e65100;color:#fff;font-weight:700;font-size:0.82rem;padding:0.75rem;border-radius:6px;text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-          Any UPI App
-        </a>
-      </div>
-      <button class="btn-primary" style="width:100%;justify-content:center;background:var(--green-border);color:var(--text-muted);" onclick="closeModal()">DONE — PAID</button>
     </div>
+  </div>
+</div>
+
+<!-- PHONEPE PAYMENT MODAL -->
+<div class="modal-overlay" id="phonePeModal">
+  <div class="modal" style="text-align:center;">
+    <h3 style="margin-bottom:0.5rem;font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;text-transform:uppercase;">Pay via PhonePe / UPI</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:1.5rem;">Scan QR or tap the button to pay</p>
+    <img id="phonePeQR" src="" alt="UPI QR Code" style="width:180px;height:180px;border:2px solid #1a3d1f;border-radius:8px;margin-bottom:1rem;background:#fff;"/>
+    <div style="background:var(--green-dark);border-radius:8px;padding:12px;margin-bottom:1.5rem;">
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">Pay Amount</div>
+      <div id="phonePeAmount" style="font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;color:var(--green);"></div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">UPI ID: <strong id="phonePeUpiId" style="color:var(--text);"></strong></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:1rem;">
+      <a id="phonePeBtn" href="#" target="_blank" style="flex:1;background:#5f259f;color:white;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">
+        📱 Open PhonePe
+      </a>
+      <a id="upiBtn" href="#" target="_blank" style="flex:1;background:#e65100;color:white;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">
+        💳 Any UPI App
+      </a>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:1rem;">After payment, tap the button below to confirm your booking.</p>
+    <button onclick="closePhonePeModal()" style="width:100%;background:#25D366;color:white;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;">
+      ✅ I've Completed the Payment
+    </button>
   </div>
 </div>
 
@@ -401,7 +409,7 @@
 
 <script>
   const API = 'https://urban-play-arena-api.onrender.com';
-  const UPI_ID = '7013534047@axl';
+  const UPI_ID = 'pbssdprasad@okhdfcbank';
   const UPI_NAME = 'UrbanPlayArena';
 
   const ALL_SLOTS = [
@@ -626,15 +634,8 @@
       `;
       document.getElementById('bookingForm').style.display='none';
       document.getElementById('confirmBox').classList.add('show');
-
-      // Generate QR code using Google Charts API
-      const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR`;
-      document.getElementById('qrAmount').textContent = '₹' + amount.toLocaleString('en-IN');
-      document.getElementById('phonepayBtn').href = upiUrl;
-      document.getElementById('anyUpiBtn').href = upiUrl;
-      const qrDiv = document.getElementById('qrcode');
-      qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUrl)}" width="160" height="160" alt="UPI QR Code" style="display:block;"/>`;
-
+      // Store amount for payment modal
+      document.getElementById('proceedPayBtn').dataset.amount = amount;
       buildSlots();
     } catch(e) {
       if(e.name === 'AbortError') {
@@ -678,7 +679,31 @@
     btn.disabled=false; btn.textContent='YES, CANCEL IT';
   }
 
-  function showToast(msg,type='') {
+  function proceedToPayment() {
+    const amount = document.getElementById('proceedPayBtn').dataset.amount;
+    const name = document.getElementById('custName').value.trim() || 'Customer';
+    openPhonePeModal(name, amount);
+  }
+
+  function openPhonePeModal(customerName, total) {
+    const upiLink = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${total}&cu=INR&tn=Booking by ${encodeURIComponent(customerName)}`;
+    const phonePeLink = `phonepe://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${total}&cu=INR&tn=Booking by ${encodeURIComponent(customerName)}`;
+    document.getElementById('phonePeModal').classList.add('open');
+    document.getElementById('phonePeAmount').textContent = '₹' + parseInt(total).toLocaleString('en-IN');
+    document.getElementById('phonePeUpiId').textContent = UPI_ID;
+    document.getElementById('phonePeBtn').href = phonePeLink;
+    document.getElementById('upiBtn').href = upiLink;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`;
+    document.getElementById('phonePeQR').src = qrUrl;
+  }
+
+  function closePhonePeModal() {
+    document.getElementById('phonePeModal').classList.remove('open');
+    closeModal();
+    showToast('Booking confirmed! See you on the pitch 🏏');
+  }
+
+  function showToast(msg, type='') {
     const t=document.getElementById('toast');
     t.textContent=msg;
     t.className='toast'+(type?' '+type:'');
@@ -688,6 +713,7 @@
 
   document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
   document.getElementById('cancelOverlay').addEventListener('click',function(e){if(e.target===this)closeCancelModal();});
+  document.getElementById('phonePeModal').addEventListener('click',function(e){if(e.target===this)closePhonePeModal();});
 
   // INIT
   buildDates();
