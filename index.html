@@ -147,6 +147,31 @@
   .price-btn{display:block;width:100%;text-align:center;padding:0.75rem;border:1px solid var(--green-border);border-radius:4px;color:var(--text-muted);font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;background:none;transition:all 0.2s;}
   .price-btn:hover{border-color:var(--green);color:var(--green);}
   .price-card.featured .price-btn{background:var(--green);color:#000;border-color:var(--green);}
+
+  /* RATES TABLE (new design) */
+  .rates-card{max-width:560px;background:var(--green-card);border:1px solid var(--green-border);border-radius:12px;overflow:hidden;padding:0;}
+  .rates-select{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;background:var(--surface);border-bottom:1px solid var(--green-border);font-weight:700;font-size:0.95rem;color:var(--text);}
+  .rates-select svg{color:var(--text-muted);}
+  .rates-table{padding:0;}
+  .rates-header{text-align:center;padding:0.9rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:0.12em;font-size:0.9rem;color:var(--text-muted);background:rgba(255,255,255,0.02);border-bottom:1px solid var(--green-border);}
+  .rates-day-tag{display:inline-block;margin:1rem 1.5rem 0.5rem;padding:0.3rem 0.9rem;border-radius:5px;font-size:0.78rem;font-weight:800;letter-spacing:0.06em;}
+  .rates-day-tag.mon-fri{background:rgba(245,158,11,0.15);color:var(--amber,#f59e0b);}
+  .rates-day-tag.sat-sun{background:rgba(34,197,94,0.15);color:var(--green);}
+  .rates-row{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.5rem;border-bottom:1px solid rgba(26,61,31,0.5);}
+  .rates-time{font-size:0.95rem;font-weight:600;color:var(--text);}
+  .rates-price{font-size:0.95rem;font-weight:700;color:var(--text-muted);}
+  .rates-price-big{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:900;color:var(--green);}
+  .rates-card .price-btn{display:block;margin:1.5rem;background:var(--green);color:#000;border-color:var(--green);text-align:center;padding:0.9rem;border-radius:6px;}
+  .rates-card .price-btn:hover{background:#16a34a;}
+
+  /* RULES SECTION */
+  .rule-item{display:flex;align-items:flex-start;gap:1rem;background:var(--green-card);border:1px solid var(--green-border);border-radius:8px;padding:1.1rem 1.3rem;margin-bottom:0.8rem;}
+  .rule-item.rule-warn{border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.05);}
+  .rule-item.rule-danger{border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.05);}
+  .rule-icon{font-size:1.4rem;flex-shrink:0;line-height:1;}
+  .rule-title{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.3rem;color:var(--text);}
+  .rule-text{font-size:0.88rem;color:var(--text-muted);line-height:1.6;}
+  .rule-text strong{color:var(--green);}
   #facilities{background:var(--bg);}
   .facilities-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
   .facility-card{border:1px solid var(--green-border);border-radius:8px;background:var(--green-card);padding:1.5rem;transition:border-color 0.2s;}
@@ -196,6 +221,7 @@
     <li><a href="#slots">Slots</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#facilities">Facilities</a></li>
+    <li><a href="#rules">Rules</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="https://wa.me/917013534047" target="_blank" class="nav-wa">
@@ -375,11 +401,35 @@
 <section id="pricing">
   <div class="section-label">TRANSPARENT PRICING</div>
   <div class="section-title">RATES &amp; PACKAGES</div>
-  <div class="pricing-grid">
-    <div class="price-card"><div class="price-name">Weekday Morning</div><div class="price-time">Mon–Fri · 6 AM – 5 PM</div><div class="price-amount">₹700 <span>per hour</span></div><div class="price-divider"></div><a href="#slots" class="price-btn">BOOK NOW</a></div>
-    <div class="price-card featured"><div class="price-name">Weekday Evening</div><div class="price-time">Mon–Fri · 5 PM – 11 PM</div><div class="price-amount">₹900 <span>per hour</span></div><div class="price-divider"></div><a href="#slots" class="price-btn">BOOK NOW</a></div>
-    <div class="price-card"><div class="price-name">Weekend Morning</div><div class="price-time">Sat–Sun · 6 AM – 5 PM</div><div class="price-amount">₹700 <span>per hour</span></div><div class="price-divider"></div><a href="#slots" class="price-btn">BOOK NOW</a></div>
-    <div class="price-card featured"><div class="price-badge">PEAK</div><div class="price-name">Weekend Evening</div><div class="price-time">Sat–Sun · 5 PM – 11 PM</div><div class="price-amount">₹1,000 <span>per hour</span></div><div class="price-divider"></div><a href="#slots" class="price-btn">BOOK NOW</a></div>
+  <div class="rates-card">
+    <div class="rates-select">
+      <span>Box Cricket 6 a side Regular</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="rates-table">
+      <div class="rates-header">REGULAR</div>
+
+      <div class="rates-day-tag mon-fri">MON – FRI</div>
+      <div class="rates-row">
+        <span class="rates-time">06:00 am – 05:00 pm</span>
+        <span class="rates-price">INR 700</span>
+      </div>
+      <div class="rates-row">
+        <span class="rates-time">05:00 pm – 11:00 pm</span>
+        <span class="rates-price">INR 900</span>
+      </div>
+
+      <div class="rates-day-tag sat-sun">SAT – SUN</div>
+      <div class="rates-row">
+        <span class="rates-time">06:00 am – 05:00 pm</span>
+        <span class="rates-price">INR 700</span>
+      </div>
+      <div class="rates-row">
+        <span class="rates-time">05:00 pm – 11:00 pm</span>
+        <span class="rates-price rates-price-big">INR 1000</span>
+      </div>
+    </div>
+    <a href="#slots" class="price-btn" style="margin-top:1.5rem;">BOOK A SLOT →</a>
   </div>
 </section>
 
@@ -416,6 +466,51 @@
     <div style="border-radius:8px;overflow:hidden;border:1px solid var(--green-border);height:300px;">
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3815.85819954413!2d82.2477879741316!3d16.981523914372442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a38297ed331c73f%3A0x4fe969f2ceee593b!2sUrban%20Play%20Arena!5e0!3m2!1sen!2sin!4v1781691627764!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
+  </div>
+</section>
+
+<section id="rules" style="background:var(--surface);">
+  <div class="section-label">PLEASE READ</div>
+  <div class="section-title">RULES &amp; GUIDELINES</div>
+  <div style="max-width:680px;">
+    <div class="rule-item rule-warn">
+      <div class="rule-icon">⏱️</div>
+      <div>
+        <div class="rule-title">Cancellation Policy</div>
+        <div class="rule-text">Slot cancellation is allowed up to <strong>12 hours</strong> before your scheduled slot time. After this window, you will be responsible for the full payment.</div>
+      </div>
+    </div>
+    <div class="rule-item rule-danger">
+      <div class="rule-icon">🚫</div>
+      <div>
+        <div class="rule-title">Strictly Prohibited</div>
+        <div class="rule-text">Alcohol, cigarettes, drugs, and any other illegal activities are strictly prohibited inside Urban Play Arena premises.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon">🚭</div>
+      <div>
+        <div class="rule-title">Keep It Clean</div>
+        <div class="rule-text">Please avoid chewing gum and spitting inside the premises.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon">🍔</div>
+      <div>
+        <div class="rule-title">No Food Inside</div>
+        <div class="rule-text">Food is not allowed inside the play area.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon">🤝</div>
+      <div>
+        <div class="rule-title">Co-operate With Staff</div>
+        <div class="rule-text">Please co-operate with ground staff regarding scheduled timings.</div>
+      </div>
+    </div>
+    <p style="color:var(--text-muted);font-size:0.92rem;line-height:1.7;margin-top:1.5rem;text-align:center;">
+      Urban Play Arena is the one place that can give you joyful moments while playing the game. Please kindly co-operate with management and enjoy the game! 🏏
+    </p>
   </div>
 </section>
 
