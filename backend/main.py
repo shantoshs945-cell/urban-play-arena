@@ -61,13 +61,13 @@ ALL_SLOTS = [
 def root():
     return {"status": "Urban Play Arena API is running"}
 
-# Get booked slots for a specific date
+# Get booked slots for a specific date (pending + active both block the slot)
 @app.get("/slots")
 def get_slots(date: str):
     res = supabase.table("bookings")\
         .select("slot, duration, status")\
         .eq("date", date)\
-        .eq("status", "active")\
+        .in_("status", ["active", "pending"])\
         .execute()
 
     booked = set()
@@ -80,15 +80,15 @@ def get_slots(date: str):
 
     return {"date": date, "booked_slots": list(booked)}
 
-# Customer creates a booking
+# Customer creates a booking (starts as PENDING until admin confirms payment)
 @app.post("/bookings")
 def create_booking(booking: BookingCreate):
-    # Check if slot is already taken
+    # Check if slot is already taken (pending OR active both block the slot)
     existing = supabase.table("bookings")\
         .select("id")\
         .eq("date", booking.date)\
         .eq("slot", booking.slot)\
-        .eq("status", "active")\
+        .in_("status", ["active", "pending"])\
         .execute()
 
     if existing.data:
@@ -103,12 +103,14 @@ def create_booking(booking: BookingCreate):
                 .select("id")\
                 .eq("date", booking.date)\
                 .eq("slot", next_slot)\
-                .eq("status", "active")\
+                .in_("status", ["active", "pending"])\
                 .execute()
             if existing2.data:
                 raise HTTPException(status_code=409, detail="Next slot already booked")
 
-    res = supabase.table("bookings").insert(booking.dict()).execute()
+    data = booking.dict()
+    data["status"] = "pending"
+    res = supabase.table("bookings").insert(data).execute()
     return {"success": True, "booking": res.data[0]}
 
 # Customer cancels their booking
@@ -123,6 +125,18 @@ def cancel_booking(booking_id: int):
         raise HTTPException(status_code=404, detail="Booking not found")
 
     return {"success": True, "message": "Booking cancelled"}
+
+# Customer checks their booking status by phone number
+@app.get("/bookings/check")
+def check_booking_status(phone: str):
+    res = supabase.table("bookings")\
+        .select("*")\
+        .eq("phone", phone)\
+        .order("created_at", desc=True)\
+        .limit(10)\
+        .execute()
+
+    return {"bookings": res.data}
 
 # ── ADMIN ROUTES ──
 
@@ -155,7 +169,7 @@ def admin_create_booking(
         .select("id")\
         .eq("date", booking.date)\
         .eq("slot", booking.slot)\
-        .eq("status", "active")\
+        .in_("status", ["active", "pending"])\
         .execute()
 
     if existing.data:
@@ -163,6 +177,7 @@ def admin_create_booking(
 
     data = booking.dict()
     data["type"] = "offline"
+    data["status"] = "active"  # offline bookings confirmed directly by owner
     res = supabase.table("bookings").insert(data).execute()
     return {"success": True, "booking": res.data[0]}
 

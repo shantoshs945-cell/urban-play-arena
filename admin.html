@@ -139,6 +139,10 @@
   <div class="admin-layout">
     <div class="sidebar">
       <div class="sidebar-label">Main</div>
+      <div class="nav-item" onclick="switchTab('pending',this)" id="navPending" style="position:relative;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Pending Bookings
+        <span id="pendingCountBadge" style="display:none;margin-left:auto;background:var(--amber);color:#000;font-size:0.68rem;font-weight:800;padding:0.1rem 0.5rem;border-radius:10px;"></span>
+      </div>
       <div class="nav-item active" onclick="switchTab('overview',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Overview
       </div>
@@ -162,6 +166,16 @@
     </div>
 
     <div class="admin-main">
+
+      <!-- PENDING BOOKINGS -->
+      <div class="tab-panel" id="tab-pending">
+        <div class="page-header"><div class="page-title">Pending Bookings</div><div class="page-sub">Customer paid (or claims to) — verify payment in your PhonePe, then confirm or reject</div></div>
+        <div class="table-wrap">
+          <div class="table-header"><div class="table-title">Awaiting Confirmation</div></div>
+          <table><thead><tr><th>#</th><th>Customer</th><th>Phone</th><th>Slot</th><th>Dur</th><th>Date</th><th>Players</th><th>Amount</th><th>Booked At</th><th>Action</th></tr></thead>
+          <tbody id="pendingTableBody"><tr class="loading-row"><td colspan="10">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
 
       <!-- OVERVIEW -->
       <div class="tab-panel active" id="tab-overview">
@@ -193,6 +207,7 @@
             <div class="table-title">Booking Records</div>
             <div class="table-actions">
               <button class="filter-btn active" id="filter-all" onclick="setFilter('all')">All</button>
+              <button class="filter-btn" id="filter-pending" onclick="setFilter('pending')">Pending</button>
               <button class="filter-btn" id="filter-active" onclick="setFilter('active')">Active</button>
               <button class="filter-btn" id="filter-cancelled" onclick="setFilter('cancelled')">Cancelled</button>
             </div>
@@ -380,6 +395,7 @@
 
   function refreshAll() {
     updateStats();
+    renderPendingTab();
     renderOverviewTable();
     renderBookingsTable();
     renderPaymentsTab();
@@ -391,6 +407,7 @@
   function updateStats() {
     const today = todayStr();
     const active = allBookings.filter(b=>b.status==='active');
+    const pending = allBookings.filter(b=>b.status==='pending');
     const todayA = active.filter(b=>b.date===today);
     const cancelled = allBookings.filter(b=>b.status==='cancelled');
     const revenue = active.reduce((s,b)=>s+(b.amount||getRate(b.date,b.slot)),0);
@@ -398,6 +415,50 @@
     document.getElementById('stat-today').textContent = todayA.length;
     document.getElementById('stat-revenue').textContent = '₹'+revenue.toLocaleString('en-IN');
     document.getElementById('stat-cancelled').textContent = cancelled.length;
+    const badge = document.getElementById('pendingCountBadge');
+    if (pending.length > 0) {
+      badge.style.display = 'inline-block';
+      badge.textContent = pending.length;
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  function renderPendingTab() {
+    const data = allBookings.filter(b=>b.status==='pending');
+    const body = document.getElementById('pendingTableBody');
+    if (!data.length) { body.innerHTML = `<tr class="empty-row"><td colspan="10">No pending bookings — all caught up! ✅</td></tr>`; return; }
+    body.innerHTML = data.map(b => `<tr>
+      <td>#${b.id}</td>
+      <td class="td-name">${b.name}</td>
+      <td class="td-phone">${b.phone}</td>
+      <td class="td-slot">${b.slot}</td>
+      <td>${b.duration||1}hr</td>
+      <td class="td-date">${fmtDate(b.date)}</td>
+      <td>${b.players}</td>
+      <td style="color:var(--amber);font-weight:700">₹${(b.amount||getRate(b.date,b.slot)).toLocaleString('en-IN')}</td>
+      <td class="td-date">${b.created_at ? new Date(b.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : '—'}</td>
+      <td style="display:flex;gap:0.4rem;">
+        <button class="action-btn action-confirm" onclick="confirmPending(${b.id})">✅ Confirm</button>
+        <button class="action-btn action-cancel" onclick="rejectPending(${b.id})">❌ Reject</button>
+      </td>
+    </tr>`).join('');
+  }
+
+  async function confirmPending(id) {
+    try {
+      await fetch(`${API}/admin/bookings/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json','x-admin-token':adminToken},body:JSON.stringify({status:'active'})});
+      await fetchAllBookings(); refreshAll();
+      showToast('✅ Booking #'+id+' confirmed — slot locked in');
+    } catch(e){showToast('Failed','error');}
+  }
+
+  async function rejectPending(id) {
+    try {
+      await fetch(`${API}/admin/bookings/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json','x-admin-token':adminToken},body:JSON.stringify({status:'cancelled'})});
+      await fetchAllBookings(); refreshAll();
+      showToast('❌ Booking #'+id+' rejected — slot freed up');
+    } catch(e){showToast('Failed','error');}
   }
 
   let overviewSearch = '';
@@ -423,7 +484,7 @@
 
   function setFilter(f) {
     currentFilter=f;
-    ['all','active','cancelled'].forEach(k=>document.getElementById('filter-'+k).classList.toggle('active',k===f));
+    ['all','pending','active','cancelled'].forEach(k=>document.getElementById('filter-'+k).classList.toggle('active',k===f));
     renderBookingsTable();
   }
 
@@ -450,6 +511,7 @@
       <td>${statBadge(b.status)}</td>
       <td>
         ${b.status==='active'?`<button class="action-btn action-cancel" onclick="cancelBooking(${b.id})">Cancel</button>`:''}
+        ${b.status==='pending'?`<button class="action-btn action-confirm" onclick="confirmPending(${b.id})">Confirm</button> <button class="action-btn action-cancel" onclick="rejectPending(${b.id})">Reject</button>`:''}
         ${b.status==='cancelled'?`<button class="action-btn action-confirm" onclick="restoreBooking(${b.id})">Restore</button>`:''}
       </td>
     </tr>`).join('');
@@ -601,7 +663,11 @@
   }
 
   function payBadge(p){return p==='phonepay'?`<span class="badge badge-blue">📲 PhonePe</span>`:`<span class="badge badge-green">💵 Cash</span>`;}
-  function statBadge(s){return s==='active'?`<span class="badge badge-green">Active</span>`:`<span class="badge badge-red">Cancelled</span>`;}
+  function statBadge(s){
+    if(s==='active') return `<span class="badge badge-green">Active</span>`;
+    if(s==='pending') return `<span class="badge badge-amber">⏳ Pending</span>`;
+    return `<span class="badge badge-red">Cancelled</span>`;
+  }
 
   function showToast(msg,type=''){
     const t=document.getElementById('toast');

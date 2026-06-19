@@ -172,6 +172,18 @@
   .rule-title{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.3rem;color:var(--text);}
   .rule-text{font-size:0.88rem;color:var(--text-muted);line-height:1.6;}
   .rule-text strong{color:var(--green);}
+
+  /* STATUS CHECK */
+  .status-result-item{background:var(--green-dark);border-radius:8px;padding:1rem;margin-bottom:0.75rem;border-left:3px solid var(--green-border);}
+  .status-result-item.is-pending{border-left-color:var(--amber);}
+  .status-result-item.is-active{border-left-color:var(--green);}
+  .status-result-item.is-cancelled{border-left-color:#ef4444;opacity:0.7;}
+  .status-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;font-size:0.85rem;}
+  .status-row:last-child{margin-bottom:0;}
+  .status-badge{font-size:0.68rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:4px;}
+  .status-badge.pending{background:rgba(245,158,11,0.15);color:var(--amber);}
+  .status-badge.active{background:rgba(34,197,94,0.15);color:var(--green);}
+  .status-badge.cancelled{background:rgba(239,68,68,0.15);color:#ef4444;}
   #facilities{background:var(--bg);}
   .facilities-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
   .facility-card{border:1px solid var(--green-border);border-radius:8px;background:var(--green-card);padding:1.5rem;transition:border-color 0.2s;}
@@ -232,9 +244,9 @@
 <div class="carousel-wrap">
   <div class="carousel-track">
     <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf1.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
     <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf1.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
   </div>
 </div>
 
@@ -280,9 +292,18 @@
 </section>
 
 <section id="slots">
-  <div class="section-label">LIVE AVAILABILITY</div>
-  <div class="section-title">BOOK YOUR SLOT</div>
-  <p class="section-sub">Select a date — slots available up to 14 days ahead.</p>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <div class="section-label">LIVE AVAILABILITY</div>
+      <div class="section-title">BOOK YOUR SLOT</div>
+      <p class="section-sub" style="margin-bottom:0;">Select a date — slots available up to 14 days ahead.</p>
+    </div>
+    <button class="btn-secondary" onclick="openStatusModal()" style="margin-top:0.3rem;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Check Booking Status
+    </button>
+  </div>
+  <div style="margin-top:2.5rem;">
   <div class="date-nav">
     <button onclick="shiftDates(-1)">&#8249;</button>
     <div class="date-scroll" id="dateScroll"></div>
@@ -299,7 +320,27 @@
     <button class="dur-btn" id="dur2" onclick="setDuration(2,this)">2 HOURS</button>
   </div>
   <div class="slots-grid" id="slotsGrid"><div class="slots-loading">Loading slots...</div></div>
+  </div>
 </section>
+
+<!-- CHECK STATUS MODAL -->
+<div class="modal-overlay" id="statusOverlay">
+  <div class="modal">
+    <div id="statusSearchBox">
+      <h2>Check Booking Status</h2>
+      <div class="modal-slot-info" style="color:var(--text-muted);">Enter your phone number to see your bookings</div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="statusPhone" placeholder="+91 XXXXXXXXXX" onkeydown="if(event.key==='Enter')checkStatus()"/>
+      </div>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeStatusModal()">Close</button>
+        <button class="btn-primary" id="statusCheckBtn" onclick="checkStatus()">CHECK STATUS</button>
+      </div>
+      <div id="statusResults" style="margin-top:1.5rem;"></div>
+    </div>
+  </div>
+</div>
 
 <!-- BOOKING MODAL -->
 <div class="modal-overlay" id="modalOverlay">
@@ -339,9 +380,9 @@
       </div>
     </div>
     <div class="confirm-box" id="confirmBox">
-      <div class="confirm-icon">🏏</div>
-      <h3>Slot Confirmed!</h3>
-      <p>Your slot is booked! Complete payment to confirm.</p>
+      <div class="confirm-icon">⏳</div>
+      <h3 style="color:var(--amber);">Slot Reserved!</h3>
+      <p>Your slot is held as <strong style="color:var(--amber);">Pending</strong>. Pay now to confirm — the owner will verify and confirm your booking.</p>
       <div class="confirm-details" id="confirmDetails"></div>
       <div class="modal-btns" style="margin-top:1rem;">
         <button class="btn-primary" id="proceedPayBtn" style="width:100%;justify-content:center;" onclick="proceedToPayment()">PAY NOW →</button>
@@ -839,7 +880,48 @@
   function closePhonePeModal() {
     document.getElementById('phonePeModal').classList.remove('open');
     closeModal();
-    showToast('Booking confirmed! See you on the pitch 🏏');
+    showToast('Payment noted! Owner will confirm your slot shortly 🏏');
+  }
+
+  function openStatusModal() {
+    document.getElementById('statusOverlay').classList.add('open');
+    document.getElementById('statusResults').innerHTML = '';
+    document.getElementById('statusPhone').value = '';
+  }
+  function closeStatusModal() {
+    document.getElementById('statusOverlay').classList.remove('open');
+  }
+
+  async function checkStatus() {
+    const phone = document.getElementById('statusPhone').value.trim();
+    const resultsDiv = document.getElementById('statusResults');
+    if (!phone || phone.length < 10) { showToast('Enter a valid phone number','error'); return; }
+    const btn = document.getElementById('statusCheckBtn');
+    btn.disabled = true; btn.textContent = 'Checking...';
+    resultsDiv.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">⏳ Loading (server may take a moment)...</div>';
+    try {
+      const res = await fetch(`${API}/bookings/check?phone=${encodeURIComponent(phone)}`);
+      const data = await res.json();
+      const bookings = data.bookings || [];
+      if (!bookings.length) {
+        resultsDiv.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">No bookings found for this number.</div>';
+      } else {
+        resultsDiv.innerHTML = bookings.map(b => `
+          <div class="status-result-item is-${b.status}">
+            <div class="status-row"><strong>${b.slot}</strong><span class="status-badge ${b.status}">${b.status==='pending'?'⏳ Pending':b.status==='active'?'✅ Confirmed':'❌ Cancelled'}</span></div>
+            <div class="status-row" style="color:var(--text-muted);"><span>${formatStatusDate(b.date)}</span><span>${b.duration||1}hr · ₹${b.amount||0}</span></div>
+          </div>
+        `).join('');
+      }
+    } catch(e) {
+      resultsDiv.innerHTML = '<div style="text-align:center;color:#ef4444;padding:1rem;font-size:0.85rem;">Could not load. Please try again.</div>';
+    }
+    btn.disabled = false; btn.textContent = 'CHECK STATUS';
+  }
+
+  function formatStatusDate(dateStr) {
+    const d = new Date(dateStr+'T00:00:00');
+    return d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
   }
 
   function showToast(msg, type='') {
@@ -853,6 +935,7 @@
   document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
   document.getElementById('cancelOverlay').addEventListener('click',function(e){if(e.target===this)closeCancelModal();});
   document.getElementById('phonePeModal').addEventListener('click',function(e){if(e.target===this)closePhonePeModal();});
+  document.getElementById('statusOverlay').addEventListener('click',function(e){if(e.target===this)closeStatusModal();});
 
   // INIT
   buildDates();
