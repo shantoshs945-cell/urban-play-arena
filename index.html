@@ -220,7 +220,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#slots">Slots</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#facilities">Guidelines</a></li>
+    <li><a href="#facilities">Facilities</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="https://wa.me/917013534047" target="_blank" class="nav-wa">
@@ -232,9 +232,9 @@
 <div class="carousel-wrap">
   <div class="carousel-track">
     <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf1.jpg" alt="Urban Play Arena"/>
     <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
+    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf1.jpg" alt="Urban Play Arena"/>
   </div>
 </div>
 
@@ -434,7 +434,7 @@
 
 <section id="facilities">
   <div class="section-label">WORLD-CLASS</div>
-  <div class="section-title">GUIDELINES</div>
+  <div class="section-title">FACILITIES</div>
   <div class="facilities-grid">
     <div class="facility-card"><svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><div class="facility-name">Floodlit Ground</div><div class="facility-desc">Full LED lighting for day &amp; night play.</div></div>
     <div class="facility-card"><svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="facility-name">Safety Nets</div><div class="facility-desc">High-quality netting on all six sides.</div></div>
@@ -643,6 +643,21 @@
     return myBookings.find(b => b.date === dateStr && b.slotIdx === slotIdx);
   }
 
+  // Returns true if this slot's start time has already passed (only applies to today)
+  function isSlotPast(slotIdx) {
+    if (selectedDate !== 0) return false; // only check for today
+    const slot = ALL_SLOTS[slotIdx];
+    const startStr = slot.split('–')[0].trim(); // e.g. "06:00 AM"
+    const [time, meridian] = startStr.split(' ');
+    let [hour, min] = time.split(':').map(Number);
+    if (meridian === 'PM' && hour !== 12) hour += 12;
+    if (meridian === 'AM' && hour === 12) hour = 0;
+    const now = new Date();
+    const slotTime = new Date();
+    slotTime.setHours(hour, min, 0, 0);
+    return now >= slotTime;
+  }
+
   function buildSlots() {
     const grid = document.getElementById('slotsGrid');
     grid.innerHTML = '';
@@ -657,19 +672,20 @@
       const myB = isMyBooking(i);
       const isMine = !!myB;
       if (isMine) isBooked = false;
+      const isPast = !isMine && isSlotPast(i);
       const rate = getRate(selectedDate,i,currentDuration);
       const card = document.createElement('div');
-      card.className = 'slot-card'+(isBooked?' booked-slot':'')+(isMine?' selected':'');
+      card.className = 'slot-card'+((isBooked||isPast)?' booked-slot':'')+(isMine?' selected':'');
       card.innerHTML = `
         <div class="slot-header">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${isMine?'#f59e0b':isBooked?'#6b7280':'#22c55e'}" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <div class="slot-status ${isMine?'yours':isBooked?'booked':'open'}">${isMine?'YOURS':isBooked?'BOOKED':'OPEN'}</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${isMine?'#f59e0b':(isBooked||isPast)?'#6b7280':'#22c55e'}" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div class="slot-status ${isMine?'yours':isPast?'booked':isBooked?'booked':'open'}">${isMine?'YOURS':isPast?'CLOSED':isBooked?'BOOKED':'OPEN'}</div>
         </div>
         <div class="slot-time">${slotLabel}</div>
         <div class="slot-price">₹${rate.toLocaleString('en-IN')}</div>
         ${isMine?`<button class="cancel-slot-btn" onclick="openCancelModal(${myB.id},'${slot}',${i},event)">✕ Cancel Booking</button>`:''}
       `;
-      if (!isBooked && !isMine) card.onclick = ()=>openModal(slot,i);
+      if (!isBooked && !isMine && !isPast) card.onclick = ()=>openModal(slot,i);
       grid.appendChild(card);
     }
   }
