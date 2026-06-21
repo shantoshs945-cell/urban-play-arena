@@ -6,8 +6,7 @@ from dotenv import load_dotenv
 from typing import Optional
 from datetime import datetime, timedelta, timezone
 import os
-import smtplib
-from email.mime.text import MIMEText
+import requests
 
 load_dotenv()
 
@@ -15,9 +14,9 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
-GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS")        # urbanplayarena@gmail.com
-GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")  # 16-char app password
-OWNER_EMAIL = os.getenv("OWNER_EMAIL", GMAIL_ADDRESS)  # where owner notifications go
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+RESEND_FROM = os.getenv("RESEND_FROM", "Urban Play Arena <onboarding@resend.dev>")
+OWNER_EMAIL = os.getenv("OWNER_EMAIL", "urbanplayarena@gmail.com")
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
@@ -54,19 +53,29 @@ def check_admin(token: Optional[str] = None):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
 def send_email(to_email: str, subject: str, body: str):
-    """Send an email via Gmail SMTP. Fails silently (logs only) so it never breaks booking flow."""
-    if not GMAIL_ADDRESS or not GMAIL_APP_PASSWORD or not to_email:
+    """Send an email via Resend API (works over HTTPS, unlike SMTP which Render blocks)."""
+    if not RESEND_API_KEY or not to_email:
         print(f"[email skipped] missing config or recipient: {to_email}")
         return
     try:
-        msg = MIMEText(body)
-        msg["Subject"] = subject
-        msg["From"] = GMAIL_ADDRESS
-        msg["To"] = to_email
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
-            server.sendmail(GMAIL_ADDRESS, [to_email], msg.as_string())
-        print(f"[email sent] to {to_email}: {subject}")
+        res = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {RESEND_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "from": RESEND_FROM,
+                "to": [to_email],
+                "subject": subject,
+                "text": body,
+            },
+            timeout=10,
+        )
+        if res.status_code in (200, 201):
+            print(f"[email sent] to {to_email}: {subject}")
+        else:
+            print(f"[email failed] to {to_email}: {res.status_code} {res.text}")
     except Exception as e:
         print(f"[email failed] to {to_email}: {e}")
 
