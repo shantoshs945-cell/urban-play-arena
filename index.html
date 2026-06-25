@@ -10,8 +10,6 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;overflow-x:hidden;}
-
-  /* SPLASH */
   #splash{position:fixed;inset:0;z-index:9999;background:#060d07;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease,visibility 0.8s ease;}
   #splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
   .splash-logo{width:220px;height:220px;object-fit:contain;animation:splashPulse 1.5s ease-in-out infinite alternate;}
@@ -21,51 +19,23 @@
   @keyframes splashPulse{from{transform:scale(0.95);filter:drop-shadow(0 0 8px rgba(34,197,94,0.2));}to{transform:scale(1.05);filter:drop-shadow(0 0 24px rgba(34,197,94,0.5));}}
   @keyframes splashFadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
   @keyframes splashLoad{from{width:0;}to{width:100%;}}
-
-  /* NAV */
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;background:rgba(6,13,7,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--green-border);}
   .nav-logo{display:flex;align-items:center;gap:0.6rem;}
   .nav-logo img{width:38px;height:38px;object-fit:contain;}
   .nav-logo span{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:0.05em;color:var(--text);}
   .nav-links{display:flex;gap:2rem;list-style:none;}
-  .nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.9rem;font-weight:500;letter-spacing:0.04em;transition:color 0.2s;}
+  .nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}
   .nav-links a:hover{color:var(--green);}
-  .nav-wa{display:flex;align-items:center;gap:0.5rem;background:var(--green);color:#000;font-weight:700;font-size:0.85rem;padding:0.5rem 1.1rem;border-radius:4px;text-decoration:none;letter-spacing:0.04em;transition:background 0.2s;}
+  .nav-actions{display:flex;align-items:center;gap:0.6rem;}
+  .nav-wa{display:flex;align-items:center;gap:0.5rem;background:var(--green);color:#000;font-weight:700;font-size:0.85rem;padding:0.5rem 1.1rem;border-radius:4px;text-decoration:none;transition:background 0.2s;}
   .nav-wa:hover{background:#16a34a;}
-  .nav-actions{
-   display:flex;
-   align-items:center;
-   gap:10px;
-  }
-
-.nav-call{
-  display:flex;
-  align-items:center;
-  gap:0.5rem;
-  color:var(--text);
-  font-weight:700;
-  font-size:0.85rem;
-  padding:0.5rem 1.1rem;
-  border:1px solid var(--green-border);
-  border-radius:4px;
-  text-decoration:none;
-  letter-spacing:0.04em;
-  transition:all 0.2s;
-}
-
-.nav-call:hover{
-  border-color:var(--green);
-  color:var(--green);
-}
-  /* CAROUSEL */
+  .nav-call{display:flex;align-items:center;gap:0.5rem;color:var(--text);font-weight:700;font-size:0.85rem;padding:0.5rem 1.1rem;border:1px solid var(--green-border);border-radius:4px;text-decoration:none;transition:all 0.2s;}
+  .nav-call:hover{border-color:var(--green);color:var(--green);}
   .carousel-wrap{width:100%;overflow:hidden;background:#000;padding-top:60px;}
   .carousel-track{display:flex;animation:carouselScroll 18s linear infinite;}
   .carousel-track:hover{animation-play-state:paused;}
   .carousel-track img{width:420px;height:260px;object-fit:cover;flex-shrink:0;margin-right:12px;border-radius:4px;opacity:0.85;transition:opacity 0.3s;}
-  .carousel-track img:hover{opacity:1;}
   @keyframes carouselScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-
-  /* HERO */
   .hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;overflow:hidden;}
   .hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(to bottom,rgba(6,13,7,0.2) 0%,rgba(6,13,7,0.65) 55%,rgba(6,13,7,1) 100%),url('turf4.jpg') center/cover no-repeat;}
   .hero-content{position:relative;z-index:1;max-width:680px;}
@@ -82,25 +52,18 @@
   .btn-primary:hover{background:#16a34a;}
   .btn-secondary{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:var(--text);font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 1.6rem;border-radius:4px;border:1px solid var(--green-border);text-decoration:none;cursor:pointer;transition:border-color 0.2s,color 0.2s;}
   .btn-secondary:hover{border-color:var(--green);color:var(--green);}
-
-  /* SECTIONS */
   section{padding:5rem 3rem;}
   .section-label{color:var(--green);font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;}
   .section-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:0.5rem;}
   .section-sub{color:var(--text-muted);font-size:0.95rem;margin-bottom:2.5rem;}
-
-  /* SLOTS — view only */
   #slots{background:var(--bg);}
   .slots-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
   .slot-card{border:1px solid var(--green-border);border-radius:6px;background:var(--green-card);padding:1rem 1.2rem;}
   .slot-time{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.04em;}
   .slot-price{font-size:0.78rem;color:var(--green);margin-top:0.3rem;font-weight:600;}
   .slot-tag{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.5rem;}
-
-  /* RATES TABLE */
   .rates-card{max-width:560px;background:var(--green-card);border:1px solid var(--green-border);border-radius:12px;overflow:hidden;}
-  .rates-select{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;background:var(--surface);border-bottom:1px solid var(--green-border);font-weight:700;font-size:0.95rem;color:var(--text);}
-  .rates-table{padding:0;}
+  .rates-select{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;background:var(--surface);border-bottom:1px solid var(--green-border);font-weight:700;font-size:0.95rem;}
   .rates-header{text-align:center;padding:0.9rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:0.12em;font-size:0.9rem;color:var(--text-muted);background:rgba(255,255,255,0.02);border-bottom:1px solid var(--green-border);}
   .rates-day-tag{display:inline-block;margin:1rem 1.5rem 0.5rem;padding:0.3rem 0.9rem;border-radius:5px;font-size:0.78rem;font-weight:800;letter-spacing:0.06em;}
   .rates-day-tag.mon-fri{background:rgba(245,158,11,0.15);color:var(--amber);}
@@ -109,44 +72,35 @@
   .rates-time{font-size:0.95rem;font-weight:600;color:var(--text);}
   .rates-price{font-size:0.95rem;font-weight:700;color:var(--text-muted);}
   .rates-price-big{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:900;color:var(--green);}
-
-  /* FACILITIES */
   .facilities-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
   .facility-card{border:1px solid var(--green-border);border-radius:8px;background:var(--green-card);padding:1.5rem;transition:border-color 0.2s;}
   .facility-card:hover{border-color:var(--green);}
+  .facility-icon-big{font-size:2rem;margin-bottom:1rem;}
   .facility-icon{width:40px;height:40px;color:var(--green);margin-bottom:1rem;}
   .facility-name{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem;}
   .facility-desc{color:var(--text-muted);font-size:0.85rem;line-height:1.5;}
-
-  /* ABOUT */
   .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:3rem;align-items:start;}
-
-  /* SOCIAL BUTTONS */
   .social-btns{display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem;}
   .social-btn{display:flex;align-items:center;justify-content:center;gap:0.6rem;font-weight:800;font-size:0.95rem;letter-spacing:0.06em;text-transform:uppercase;padding:1rem 2rem;border-radius:6px;text-decoration:none;transition:opacity 0.2s;}
   .social-btn:hover{opacity:0.85;}
   .social-btn.whatsapp{background:#25d366;color:#000;}
   .social-btn.instagram{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;}
   .social-btn.facebook{background:#1877F2;color:#fff;}
-
-  /* CONTACT */
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
   .contact-items{display:flex;flex-direction:column;gap:1rem;}
   .contact-item{display:flex;align-items:flex-start;gap:0.8rem;}
   .contact-item svg{color:var(--green);flex-shrink:0;margin-top:2px;}
   .contact-item div{font-size:0.9rem;}
   .contact-item .ci-label{color:var(--text-muted);font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.2rem;}
-
-  /* GUIDELINES */
   .rule-item{display:flex;align-items:flex-start;gap:1rem;background:var(--green-card);border:1px solid var(--green-border);border-radius:8px;padding:1.1rem 1.3rem;margin-bottom:0.8rem;}
+  .rule-item.warn{border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.05);}
+  .rule-item.danger{border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.05);}
   .rule-item.rule-warn{border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.05);}
   .rule-item.rule-danger{border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.05);}
   .rule-icon{font-size:1.4rem;flex-shrink:0;line-height:1;}
-  .rule-title{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.3rem;color:var(--text);}
+  .rule-title{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:0.3rem;}
   .rule-text{font-size:0.88rem;color:var(--text-muted);line-height:1.6;}
   .rule-text strong{color:var(--green);}
-
-  /* FOOTER */
   footer{background:var(--bg);border-top:1px solid var(--green-border);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
   .footer-logo{display:flex;align-items:center;gap:0.6rem;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:0.05em;}
   .footer-logo img{width:32px;height:32px;object-fit:contain;}
@@ -154,11 +108,48 @@
   .footer-social a{color:var(--text-muted);transition:color 0.2s;}
   .footer-social a:hover{color:var(--green);}
   .footer-copy{color:var(--text-muted);font-size:0.8rem;}
-
-  /* FLOAT WHATSAPP */
-  .float-chat{position:fixed;bottom:1.5rem;right:1.5rem;z-index:150;width:52px;height:52px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform 0.2s;}
-  .float-chat:hover{transform:scale(1.1);}
-
+  /* FLOATING BUTTONS */
+  .float-buttons{position:fixed;bottom:1.5rem;right:1.5rem;z-index:150;display:flex;flex-direction:column;gap:0.75rem;align-items:flex-end;}
+  .float-btn{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;transition:transform 0.2s;border:none;}
+  .float-btn:hover{transform:scale(1.1);}
+  .float-wa{background:#25d366;box-shadow:0 4px 20px rgba(37,211,102,0.4);}
+  .float-admin{background:var(--green-card);border:2px solid var(--green-border) !important;box-shadow:0 4px 15px rgba(0,0,0,0.3);}
+  .float-admin:hover{border-color:var(--green) !important;}
+  /* ADMIN MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;align-items:flex-start;justify-content:center;overflow-y:auto;padding:2rem 1rem;}
+  .modal-overlay.open{display:flex;}
+  .admin-modal{background:#0d1f10;border:1px solid var(--green-border);border-radius:12px;width:100%;max-width:700px;margin:auto;}
+  .admin-header{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;border-bottom:1px solid var(--green-border);}
+  .admin-header h2{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;text-transform:uppercase;}
+  .admin-close{background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer;line-height:1;}
+  .admin-close:hover{color:#ef4444;}
+  .admin-tabs{display:flex;border-bottom:1px solid var(--green-border);overflow-x:auto;}
+  .admin-tab{padding:0.75rem 1.2rem;font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--text-muted);border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.2s;}
+  .admin-tab.active{color:var(--green);border-bottom-color:var(--green);}
+  .admin-content{padding:1.5rem;}
+  .admin-section{display:none;}
+  .admin-section.active{display:block;}
+  .field-group{margin-bottom:1.1rem;}
+  .field-group label{display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.4rem;}
+  .field-group input,.field-group textarea{width:100%;padding:0.7rem 1rem;background:var(--green-dark);border:1px solid var(--green-border);border-radius:5px;color:var(--text);font-size:0.9rem;font-family:'Barlow',sans-serif;outline:none;transition:border-color 0.2s;resize:vertical;}
+  .field-group input:focus,.field-group textarea:focus{border-color:var(--green);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+  .save-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--green);color:#000;font-weight:800;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.8rem 1.6rem;border-radius:5px;border:none;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}
+  .save-btn:hover{background:#16a34a;}
+  .item-card{background:var(--green-dark);border:1px solid var(--green-border);border-radius:6px;padding:1rem;margin-bottom:0.75rem;}
+  .item-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
+  .item-card-title{font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;}
+  .remove-btn{background:none;border:1px solid #ef444444;color:#ef4444;font-size:0.72rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:4px;cursor:pointer;}
+  .remove-btn:hover{background:rgba(239,68,68,0.1);}
+  .add-btn{display:inline-flex;align-items:center;gap:0.4rem;background:transparent;border:1px solid var(--green-border);color:var(--green);font-size:0.78rem;font-weight:700;padding:0.5rem 1rem;border-radius:5px;cursor:pointer;margin-top:0.5rem;}
+  .add-btn:hover{background:rgba(34,197,94,0.08);border-color:var(--green);}
+  .admin-save-msg{font-size:0.82rem;margin-top:0.75rem;min-height:1.2rem;color:var(--green);}
+  .admin-save-msg.error{color:#ef4444;}
+  .login-modal{background:#0d1f10;border:1px solid var(--green-border);border-radius:12px;padding:2rem;width:100%;max-width:380px;margin:auto;}
+  .login-modal h2{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;text-transform:uppercase;margin-bottom:0.3rem;}
+  .login-modal p{color:var(--text-muted);font-size:0.85rem;margin-bottom:1.5rem;}
+  .login-err{color:#ef4444;font-size:0.82rem;margin-top:0.5rem;display:none;}
+  .login-err.show{display:block;}
   @media(max-width:768px){
     nav{padding:0 1rem;}.nav-links{display:none;}
     section{padding:3rem 1.2rem;}.hero{padding:0 1.2rem 4rem;}
@@ -167,6 +158,7 @@
     .about-grid{grid-template-columns:1fr;}
     footer{flex-direction:column;text-align:center;}
     .carousel-track img{width:300px;height:190px;}
+    .field-row{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -193,35 +185,24 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
-
-  <div class="nav-actions">
-
-  <a href="https://wa.me/917013534047" target="_blank" class="nav-wa">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207z"/>
-    </svg>
-    WhatsApp
-  </a>
-<!-- DOUBT -->
-  <a href="tel:+917013534047" class="nav-call">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.07 9.8 19.79 19.79 0 0 1 .12 1.21 2 2 0 0 1 2.1 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L6.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.09z"/>
-    </svg>
-    Call Now
-  </a>
-
-</div>
-</div>
-  
+    <a href="tel:+917013534047" class="nav-call">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.12 1.21 2 2 0 012.1 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.09z"/></svg>
+      Call Now
+    </a>
+    <a href="https://wa.me/917013534047" target="_blank" class="nav-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
 </nav>
 
 <!-- CAROUSEL -->
 <div class="carousel-wrap">
   <div class="carousel-track">
-    <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
-    <img src="turf2.jpg" alt="Urban Play Arena"/><img src="turf3.jpg" alt="Urban Play Arena"/>
-    <img src="turf4.jpg" alt="Urban Play Arena"/><img src="turf2.jpg" alt="Urban Play Arena"/>
+    <img src="turf2.jpg" alt="UPA"/><img src="turf3.jpg" alt="UPA"/>
+    <img src="turf4.jpg" alt="UPA"/><img src="turf1.jpg" alt="UPA"/>
+    <img src="turf2.jpg" alt="UPA"/><img src="turf3.jpg" alt="UPA"/>
+    <img src="turf4.jpg" alt="UPA"/><img src="turf1.jpg" alt="UPA"/>
   </div>
 </div>
 
@@ -231,18 +212,17 @@
   <div class="hero-content">
     <div class="hero-badge">KAKINADA'S PREMIER SPORTS DESTINATION</div>
     <h1>YOUR PITCH.<br><span class="accent">YOUR GAME.</span><br>YOUR TIME.</h1>
-    <p class="hero-sub">Premium box cricket arena in the heart of Kakinada. Open 6 AM – 11 PM, 7 days a week.</p>
+    <p class="hero-sub">Premium box cricket arena in the heart of Kakinada. Open <span id="heroHours">6 AM – 11 PM</span>, 7 days a week.</p>
     <div class="hero-meta">
+      <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Open <span id="heroHours2">6 AM – 11 PM</span></span>
       <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Kakinada, AP</span>
     </div>
     <div class="hero-btns">
-      <a href="https://wa.me/917013534047" target="_blank" class="btn-primary">
+      <a href="https://wa.me/917013534047" target="_blank" class="btn-primary" id="heroWaBtn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         BOOK VIA WHATSAPP
       </a>
-      <a href="tel:+917013534047" class="btn-secondary">
-        📞 CALL NOW
-      </a>
+      <a href="tel:+917013534047" class="btn-secondary">📞 CALL NOW</a>
       <a href="#slots" class="btn-secondary">VIEW SLOTS →</a>
     </div>
   </div>
@@ -254,28 +234,21 @@
   <div class="section-title">ABOUT US</div>
   <div class="about-grid">
     <div>
-      <p style="color:var(--text-muted);font-size:1rem;line-height:1.8;margin-bottom:1.2rem;">
-        Welcome to <strong style="color:var(--text);">Urban Play Arena</strong>, Kakinada's premier sports destination. Founded in 2021 , Urban Play Arena was created with a vision to bring sports enthusiasts together in a world-class environment that promotes fitness, teamwork, and healthy competition.
-      </p>
-      <p style="color:var(--text-muted);font-size:1rem;line-height:1.8;">
-        Our facility features premium Box Cricket and Football turfs designed for performance, safety, and an exceptional playing experience. With high-quality artificial turf and professional floodlights, players can enjoy the game both day and night.
-      </p>
+      <p id="aboutDesc" style="color:var(--text-muted);font-size:1rem;line-height:1.8;margin-bottom:1.2rem;">Welcome to <strong style="color:var(--text);">Urban Play Arena</strong>, Kakinada's premier sports destination. Founded in 2021 by PBSSD Prasad, Urban Play Arena was created with a vision to bring sports enthusiasts together in a world-class environment that promotes fitness, teamwork, and healthy competition. Our facility features premium Box Cricket and Football turfs designed for performance, safety, and an exceptional playing experience. With high-quality artificial turf and professional floodlights, players can enjoy the game both day and night.</p>
     </div>
     <div style="background:var(--green-card);border:1px solid var(--green-border);border-left:3px solid var(--green);border-radius:8px;padding:1.8rem;">
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:900;text-transform:uppercase;letter-spacing:0.04em;color:var(--green);margin-bottom:0.8rem;">Our Vision</div>
-      <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;">
-        To inspire a healthier and more active lifestyle in Kakinada by providing a top-quality sporting environment where players of all skill levels can play, compete, and grow.
-      </p>
+      <p id="aboutVision" style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;">To inspire a healthier and more active lifestyle in Kakinada by providing a top-quality sporting environment where players of all skill levels can play, compete, and grow.</p>
     </div>
   </div>
 </section>
 
-<!-- SLOTS — VIEW ONLY -->
+<!-- SLOTS -->
 <section id="slots">
   <div class="section-label">TIMINGS</div>
   <div class="section-title">AVAILABLE SLOTS</div>
-  <p class="section-sub">Walk in or WhatsApp us to book your slot. Open 6 AM – 11 PM daily.</p>
-  <div class="slots-grid">
+  <p class="section-sub">Walk in or WhatsApp us to book your slot. Open <span id="slotHours">6 AM – 11 PM</span> daily.</p>
+  <div class="slots-grid" id="slotsGrid">
     <div class="slot-card"><div class="slot-tag">Morning</div><div class="slot-time">06:00 AM – 07:00 AM</div><div class="slot-price">₹700 / hr (Weekday) &nbsp;|&nbsp; ₹700 / hr (Weekend)</div></div>
     <div class="slot-card"><div class="slot-tag">Morning</div><div class="slot-time">07:00 AM – 08:00 AM</div><div class="slot-price">₹700 / hr (Weekday) &nbsp;|&nbsp; ₹700 / hr (Weekend)</div></div>
     <div class="slot-card"><div class="slot-tag">Morning</div><div class="slot-time">08:00 AM – 09:00 AM</div><div class="slot-price">₹700 / hr (Weekday) &nbsp;|&nbsp; ₹700 / hr (Weekend)</div></div>
@@ -301,14 +274,18 @@
   <div class="section-label">TRANSPARENT PRICING</div>
   <div class="section-title">RATES &amp; PACKAGES</div>
   <div class="rates-card">
+    <div class="rates-select">
+      <span id="pricingTitle">Box Cricket 6 a side Regular</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
     <div class="rates-table">
       <div class="rates-header">REGULAR</div>
       <div class="rates-day-tag mon-fri">MON – FRI</div>
-      <div class="rates-row"><span class="rates-time">06:00 am – 05:00 pm</span><span class="rates-price">INR 700</span></div>
-      <div class="rates-row"><span class="rates-time">05:00 pm – 11:00 pm</span><span class="rates-price">INR 900</span></div>
+      <div class="rates-row"><span class="rates-time" id="wdMornTime">06:00 am – 05:00 pm</span><span class="rates-price" id="wdMornPrice">INR 700</span></div>
+      <div class="rates-row"><span class="rates-time" id="wdEveTime">05:00 pm – 11:00 pm</span><span class="rates-price" id="wdEvePrice">INR 900</span></div>
       <div class="rates-day-tag sat-sun">SAT – SUN</div>
-      <div class="rates-row"><span class="rates-time">06:00 am – 05:00 pm</span><span class="rates-price">INR 700</span></div>
-      <div class="rates-row"><span class="rates-time">05:00 pm – 11:00 pm</span><span class="rates-price rates-price-big">INR 1000</span></div>
+      <div class="rates-row"><span class="rates-time" id="weMornTime">06:00 am – 05:00 pm</span><span class="rates-price" id="weMornPrice">INR 700</span></div>
+      <div class="rates-row"><span class="rates-time" id="weEveTime">05:00 pm – 11:00 pm</span><span class="rates-price rates-price-big" id="weEvePrice">INR 1000</span></div>
     </div>
   </div>
 </section>
@@ -317,7 +294,7 @@
 <section id="facilities" style="background:var(--bg);">
   <div class="section-label">WORLD-CLASS</div>
   <div class="section-title">FACILITIES</div>
-  <div class="facilities-grid">
+  <div class="facilities-grid" id="facilitiesGrid">
     <div class="facility-card"><svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><div class="facility-name">Floodlit Ground</div><div class="facility-desc">Full LED lighting for day &amp; night play.</div></div>
     <div class="facility-card"><svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="facility-name">Safety Nets</div><div class="facility-desc">High-quality netting on all six sides.</div></div>
     <div class="facility-card"><svg class="facility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><div class="facility-name">Equipment Rental</div><div class="facility-desc">Bats, pads, gloves &amp; helmets available.</div></div>
@@ -330,7 +307,7 @@
 <section id="guidelines" style="background:var(--surface);">
   <div class="section-label">PLEASE READ</div>
   <div class="section-title">GUIDELINES</div>
-  <div style="max-width:680px;">
+  <div style="max-width:680px;" id="guidelinesContainer">
     <div class="rule-item rule-warn"><div class="rule-icon">⏱️</div><div><div class="rule-title">Cancellation Policy</div><div class="rule-text">Slot cancellation is allowed up to <strong>12 hours</strong> before your scheduled slot time. After this window, you will be responsible for the full payment.</div></div></div>
     <div class="rule-item rule-danger"><div class="rule-icon">🚫</div><div><div class="rule-title">Strictly Prohibited</div><div class="rule-text">Alcohol, cigarettes, drugs, and any other illegal activities are strictly prohibited inside Urban Play Arena premises.</div></div></div>
     <div class="rule-item"><div class="rule-icon">🚭</div><div><div class="rule-title">Keep It Clean</div><div class="rule-text">Please avoid chewing gum and spitting inside the premises.</div></div></div>
@@ -349,14 +326,13 @@
     <div>
       <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.7;margin-bottom:1.5rem;">Located in Kakinada, Urban Play Arena is open 7 days a week. Walk in or contact us to book your slot.</p>
       <div class="contact-items">
-        <div class="contact-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div><div class="ci-label">Hours</div><div>6:00 AM – 11:00 PM, Daily</div></div></div>
-        <div class="contact-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><div><div class="ci-label">Address</div><div>URBAN PLAY ARENA , RTO Office Rd, beside Akshaya function hall, Ranga Rao Nagar, KAKINADA , Andhra Pradesh 533003</div></div></div>
-        <div class="contact-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.12 1.21 2 2 0 012.1 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.09z"/></svg><div><div class="ci-label">Phone</div><div>+91 70135 34047</div></div></div>
-        <div class="contact-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div><div class="ci-label">Email</div><div>urbanplayarena@gmail.com</div></div></div>
+        <div class="contact-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div><div class="ci-label">Hours</div><div id="contactHours">6:00 AM – 11:00 PM, Daily</div></div></div>
+        <div class="contact-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><div><div class="ci-label">Address</div><div id="contactAddress">URBAN PLAY ARENA, RTO Office Rd, beside Akshaya function hall, Ranga Rao Nagar, KAKINADA, Andhra Pradesh 533003</div></div></div>
+        <div class="contact-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.12 1.21 2 2 0 012.1 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.09z"/></svg><div><div class="ci-label">Phone</div><div id="contactPhone">+91 70135 34047</div></div></div>
+        <div class="contact-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div><div class="ci-label">Email</div><div id="contactEmail">urbanplayarena@gmail.com</div></div></div>
       </div>
-      <!-- SOCIAL BUTTONS -->
       <div class="social-btns">
-        <a href="https://wa.me/917013534047" target="_blank" class="social-btn whatsapp">
+        <a href="https://wa.me/917013534047" target="_blank" class="social-btn whatsapp" id="waBtn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           CHAT ON WHATSAPP
         </a>
@@ -380,26 +356,253 @@
 <footer>
   <div class="footer-logo"><img src="logo.png" alt="UPA"/>URBAN PLAY ARENA</div>
   <div class="footer-social">
-    <a href="https://wa.me/917013534047" target="_blank" title="WhatsApp">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    </a>
-    <a href="https://www.instagram.com/urbanplay_kkd?igsh=bjM3OXdkdDJkaHFs" target="_blank" title="Instagram">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-    </a>
-    <a href="https://www.facebook.com/share/1EqDg6Xfci/" target="_blank" title="Facebook">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-    </a>
+    <a href="https://wa.me/917013534047" target="_blank" title="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+    <a href="https://www.instagram.com/urbanplay_kkd?igsh=bjM3OXdkdDJkaHFs" target="_blank" title="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+    <a href="https://www.facebook.com/share/1EqDg6Xfci/" target="_blank" title="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
   </div>
   <div class="footer-copy">© 2026 Urban Play Arena, Kakinada. All rights reserved.</div>
 </footer>
 
-<!-- FLOAT WHATSAPP -->
-<a href="https://wa.me/917013534047" target="_blank" class="float-chat">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
+<!-- FLOATING BUTTONS -->
+<div class="float-buttons">
+  <a href="https://wa.me/917013534047" target="_blank" class="float-btn float-wa">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <button class="float-btn float-admin" onclick="openAdminLogin()" title="Admin">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 2a5 5 0 015 5v1a5 5 0 01-10 0V7a5 5 0 015-5z"/><path d="M3 21v-1a9 9 0 0118 0v1"/></svg>
+  </button>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginOverlay">
+  <div class="login-modal">
+    <h2>Admin Login</h2>
+    <p>Enter your password to manage site content</p>
+    <div class="field-group">
+      <label>Password</label>
+      <input type="password" id="adminPassInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+    </div>
+    <button class="save-btn" onclick="doAdminLogin()">LOGIN →</button>
+    <div class="login-err" id="loginErr">❌ Wrong password</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL MODAL -->
+<div class="modal-overlay" id="adminOverlay">
+  <div class="admin-modal">
+    <div class="admin-header">
+      <h2>⚙️ Site Editor</h2>
+      <button class="admin-close" onclick="closeAdmin()">×</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab('pricing',this)">💰 Pricing</button>
+      <button class="admin-tab" onclick="switchAdminTab('timings',this)">⏰ Timings</button>
+      <button class="admin-tab" onclick="switchAdminTab('contact',this)">📞 Contact</button>
+      <button class="admin-tab" onclick="switchAdminTab('about',this)">ℹ️ About</button>
+      <button class="admin-tab" onclick="switchAdminTab('guidelines',this)">📋 Guidelines</button>
+      <button class="admin-tab" onclick="switchAdminTab('facilities',this)">🏟️ Facilities</button>
+    </div>
+    <div class="admin-content">
+      <!-- PRICING -->
+      <div class="admin-section active" id="asec-pricing">
+        <div class="field-group"><label>Section Title</label><input type="text" id="ap-title"/></div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--amber);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">MON – FRI</div>
+        <div class="field-row">
+          <div class="field-group"><label>Morning Time</label><input type="text" id="ap-wdMornTime" placeholder="06:00 am – 05:00 pm"/></div>
+          <div class="field-group"><label>Morning Price (₹)</label><input type="number" id="ap-wdMornPrice" placeholder="700"/></div>
+        </div>
+        <div class="field-row">
+          <div class="field-group"><label>Evening Time</label><input type="text" id="ap-wdEveTime" placeholder="05:00 pm – 11:00 pm"/></div>
+          <div class="field-group"><label>Evening Price (₹)</label><input type="number" id="ap-wdEvePrice" placeholder="900"/></div>
+        </div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--green);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">SAT – SUN</div>
+        <div class="field-row">
+          <div class="field-group"><label>Morning Time</label><input type="text" id="ap-weMornTime" placeholder="06:00 am – 05:00 pm"/></div>
+          <div class="field-group"><label>Morning Price (₹)</label><input type="number" id="ap-weMornPrice" placeholder="700"/></div>
+        </div>
+        <div class="field-row">
+          <div class="field-group"><label>Evening Time</label><input type="text" id="ap-weEveTime" placeholder="05:00 pm – 11:00 pm"/></div>
+          <div class="field-group"><label>Evening Price (₹)</label><input type="number" id="ap-weEvePrice" placeholder="1000"/></div>
+        </div>
+        <button class="save-btn" onclick="savePricing()">💾 SAVE PRICING</button>
+        <div class="admin-save-msg" id="msg-pricing"></div>
+      </div>
+      <!-- TIMINGS -->
+      <div class="admin-section" id="asec-timings">
+        <div class="field-row">
+          <div class="field-group"><label>Opening Time Label</label><input type="text" id="at-openLabel" placeholder="6 AM"/></div>
+          <div class="field-group"><label>Closing Time Label</label><input type="text" id="at-closeLabel" placeholder="11 PM"/></div>
+        </div>
+        <button class="save-btn" onclick="saveTimings()">💾 SAVE TIMINGS</button>
+        <div class="admin-save-msg" id="msg-timings"></div>
+      </div>
+      <!-- CONTACT -->
+      <div class="admin-section" id="asec-contact">
+        <div class="field-group"><label>Phone Number</label><input type="text" id="ac-phone" placeholder="+91 70135 34047"/></div>
+        <div class="field-group"><label>Email Address</label><input type="text" id="ac-email" placeholder="urbanplayarena@gmail.com"/></div>
+        <div class="field-group"><label>Address</label><input type="text" id="ac-address"/></div>
+        <div class="field-group"><label>Hours</label><input type="text" id="ac-hours" placeholder="6:00 AM – 11:00 PM, Daily"/></div>
+        <button class="save-btn" onclick="saveContact()">💾 SAVE CONTACT</button>
+        <div class="admin-save-msg" id="msg-contact"></div>
+      </div>
+      <!-- ABOUT -->
+      <div class="admin-section" id="asec-about">
+        <div class="field-group"><label>Founder Name</label><input type="text" id="aa-founder" placeholder="PBSSD Prasad"/></div>
+        <div class="field-group"><label>Founded Year</label><input type="text" id="aa-year" placeholder="2021"/></div>
+        <div class="field-group"><label>About Description</label><textarea id="aa-desc" rows="5"></textarea></div>
+        <div class="field-group"><label>Vision Text</label><textarea id="aa-vision" rows="3"></textarea></div>
+        <button class="save-btn" onclick="saveAbout()">💾 SAVE ABOUT</button>
+        <div class="admin-save-msg" id="msg-about"></div>
+      </div>
+      <!-- GUIDELINES -->
+      <div class="admin-section" id="asec-guidelines">
+        <div id="guidelinesEditor"></div>
+        <button class="add-btn" onclick="addGuideline()">+ ADD GUIDELINE</button><br/>
+        <button class="save-btn" onclick="saveGuidelines()">💾 SAVE GUIDELINES</button>
+        <div class="admin-save-msg" id="msg-guidelines"></div>
+      </div>
+      <!-- FACILITIES -->
+      <div class="admin-section" id="asec-facilities">
+        <div id="facilitiesEditor"></div>
+        <button class="add-btn" onclick="addFacility()">+ ADD FACILITY</button><br/>
+        <button class="save-btn" onclick="saveFacilities()">💾 SAVE FACILITIES</button>
+        <div class="admin-save-msg" id="msg-facilities"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
+  const SUPABASE_URL = 'https://fbtgfytydnymvxwiifhm.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_FeHcTanUaANwyEUQ96pCYA_6b9QG51J';
+  const ADMIN_PASSWORD = 'UPA_Kakinada@2026!';
+
   window.addEventListener('load', () => setTimeout(() => document.getElementById('splash').classList.add('hide'), 2600));
+
+  async function sbGet(id) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_content?id=eq.${id}&select=content`,{headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}});
+    const data = await res.json();
+    return data[0]?.content;
+  }
+  async function sbSet(id, content) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_content?id=eq.${id}`,{method:'PATCH',headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({content,updated_at:new Date().toISOString()})});
+    return res.ok;
+  }
+
+  async function loadAll() {
+    try {
+      const [pricing,timings,contact,about,guidelines,facilities] = await Promise.all([sbGet('pricing'),sbGet('timings'),sbGet('contact'),sbGet('about'),sbGet('guidelines'),sbGet('facilities')]);
+      if(pricing) renderPricing(pricing);
+      if(timings) renderTimings(timings);
+      if(contact) renderContact(contact);
+      if(about) renderAbout(about);
+      if(guidelines) renderGuidelines(guidelines);
+      if(facilities) renderFacilities(facilities);
+    } catch(e){console.log('Content load error:',e);}
+  }
+
+  function renderPricing(p) {
+    if(p.title) document.getElementById('pricingTitle').textContent=p.title;
+    if(p.weekday_morning_time) document.getElementById('wdMornTime').textContent=p.weekday_morning_time;
+    if(p.weekday_morning_price) document.getElementById('wdMornPrice').textContent='INR '+p.weekday_morning_price;
+    if(p.weekday_evening_time) document.getElementById('wdEveTime').textContent=p.weekday_evening_time;
+    if(p.weekday_evening_price) document.getElementById('wdEvePrice').textContent='INR '+p.weekday_evening_price;
+    if(p.weekend_morning_time) document.getElementById('weMornTime').textContent=p.weekend_morning_time;
+    if(p.weekend_morning_price) document.getElementById('weMornPrice').textContent='INR '+p.weekend_morning_price;
+    if(p.weekend_evening_time) document.getElementById('weEveTime').textContent=p.weekend_evening_time;
+    if(p.weekend_evening_price) document.getElementById('weEvePrice').textContent='INR '+p.weekend_evening_price;
+    renderSlotsGrid(p);
+  }
+  function renderTimings(t) {
+    const label=`${t.open_label||'6 AM'} – ${t.close_label||'11 PM'}`;
+    document.getElementById('heroHours').textContent=label;
+    document.getElementById('heroHours2').textContent=label;
+    document.getElementById('slotHours').textContent=label;
+    document.getElementById('contactHours').textContent=`${t.open_label||'6 AM'} – ${t.close_label||'11 PM'}, Daily`;
+  }
+  function renderContact(c) {
+    if(c.phone) document.getElementById('contactPhone').textContent=c.phone;
+    if(c.email) document.getElementById('contactEmail').textContent=c.email;
+    if(c.address) document.getElementById('contactAddress').textContent=c.address;
+    if(c.hours) document.getElementById('contactHours').textContent=c.hours;
+    if(c.phone){const ph=(c.phone).replace(/\D/g,'');document.getElementById('waBtn').href=`https://wa.me/${ph}`;document.getElementById('heroWaBtn').href=`https://wa.me/${ph}`;}
+  }
+  function renderAbout(a) {
+    if(a.description) document.getElementById('aboutDesc').textContent=a.description;
+    if(a.vision) document.getElementById('aboutVision').textContent=a.vision;
+  }
+  function renderGuidelines(rules) {
+    document.getElementById('guidelinesContainer').innerHTML=rules.map(r=>`
+      <div class="rule-item ${r.type==='warn'?'warn':r.type==='danger'?'danger':''}">
+        <div class="rule-icon">${r.icon}</div>
+        <div><div class="rule-title">${r.title}</div><div class="rule-text">${r.text}</div></div>
+      </div>`).join('')+`<p style="color:var(--text-muted);font-size:0.92rem;line-height:1.7;margin-top:1.5rem;text-align:center;">Urban Play Arena is the one place that can give you joyful moments while playing the game. Please kindly co-operate with management and enjoy the game! 🏏</p>`;
+  }
+  function renderFacilities(list) {
+    document.getElementById('facilitiesGrid').innerHTML=list.map(f=>`
+      <div class="facility-card">
+        <div class="facility-icon-big">${f.icon}</div>
+        <div class="facility-name">${f.name}</div>
+        <div class="facility-desc">${f.desc}</div>
+      </div>`).join('');
+  }
+  function renderSlotsGrid(p) {
+    const wdM=p.weekday_morning_price||'700',wdE=p.weekday_evening_price||'900',weM=p.weekend_morning_price||'700',weE=p.weekend_evening_price||'1000';
+    const slots=[
+      {tag:'Morning',time:'06:00 AM – 07:00 AM',wdP:wdM,weP:wdM},{tag:'Morning',time:'07:00 AM – 08:00 AM',wdP:wdM,weP:weM},
+      {tag:'Morning',time:'08:00 AM – 09:00 AM',wdP:wdM,weP:weM},{tag:'Morning',time:'09:00 AM – 10:00 AM',wdP:wdM,weP:weM},
+      {tag:'Morning',time:'10:00 AM – 11:00 AM',wdP:wdM,weP:weM},{tag:'Afternoon',time:'11:00 AM – 12:00 PM',wdP:wdM,weP:weM},
+      {tag:'Afternoon',time:'12:00 PM – 01:00 PM',wdP:wdM,weP:weM},{tag:'Afternoon',time:'01:00 PM – 02:00 PM',wdP:wdM,weP:weM},
+      {tag:'Afternoon',time:'02:00 PM – 03:00 PM',wdP:wdM,weP:weM},{tag:'Afternoon',time:'03:00 PM – 04:00 PM',wdP:wdM,weP:weM},
+      {tag:'Afternoon',time:'04:00 PM – 05:00 PM',wdP:wdM,weP:weM},{tag:'Evening',time:'05:00 PM – 06:00 PM',wdP:wdE,weP:weE},
+      {tag:'Evening',time:'06:00 PM – 07:00 PM',wdP:wdE,weP:weE},{tag:'Evening',time:'07:00 PM – 08:00 PM',wdP:wdE,weP:weE},
+      {tag:'Evening',time:'08:00 PM – 09:00 PM',wdP:wdE,weP:weE},{tag:'Evening',time:'09:00 PM – 10:00 PM',wdP:wdE,weP:weE},
+      {tag:'Night',time:'10:00 PM – 11:00 PM',wdP:wdE,weP:weE}
+    ];
+    document.getElementById('slotsGrid').innerHTML=slots.map(s=>`<div class="slot-card"><div class="slot-tag">${s.tag}</div><div class="slot-time">${s.time}</div><div class="slot-price">₹${s.wdP}/hr (Weekday) | ₹${s.weP}/hr (Weekend)</div></div>`).join('');
+  }
+
+  function openAdminLogin(){document.getElementById('adminPassInput').value='';document.getElementById('loginErr').classList.remove('show');document.getElementById('loginOverlay').classList.add('open');}
+  function doAdminLogin(){const pass=document.getElementById('adminPassInput').value;if(pass===ADMIN_PASSWORD){document.getElementById('loginOverlay').classList.remove('open');openAdmin();}else{document.getElementById('loginErr').classList.add('show');}}
+  document.getElementById('loginOverlay').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+
+  async function openAdmin(){document.getElementById('adminOverlay').classList.add('open');await loadAdminForms();}
+  function closeAdmin(){document.getElementById('adminOverlay').classList.remove('open');}
+  document.getElementById('adminOverlay').addEventListener('click',function(e){if(e.target===this)closeAdmin();});
+  function switchAdminTab(name,el){document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));el.classList.add('active');document.getElementById('asec-'+name).classList.add('active');}
+
+  async function loadAdminForms() {
+    try {
+      const [pricing,timings,contact,about,guidelines,facilities]=await Promise.all([sbGet('pricing'),sbGet('timings'),sbGet('contact'),sbGet('about'),sbGet('guidelines'),sbGet('facilities')]);
+      if(pricing){document.getElementById('ap-title').value=pricing.title||'';document.getElementById('ap-wdMornTime').value=pricing.weekday_morning_time||'';document.getElementById('ap-wdMornPrice').value=pricing.weekday_morning_price||'';document.getElementById('ap-wdEveTime').value=pricing.weekday_evening_time||'';document.getElementById('ap-wdEvePrice').value=pricing.weekday_evening_price||'';document.getElementById('ap-weMornTime').value=pricing.weekend_morning_time||'';document.getElementById('ap-weMornPrice').value=pricing.weekend_morning_price||'';document.getElementById('ap-weEveTime').value=pricing.weekend_evening_time||'';document.getElementById('ap-weEvePrice').value=pricing.weekend_evening_price||'';}
+      if(timings){document.getElementById('at-openLabel').value=timings.open_label||'';document.getElementById('at-closeLabel').value=timings.close_label||'';}
+      if(contact){document.getElementById('ac-phone').value=contact.phone||'';document.getElementById('ac-email').value=contact.email||'';document.getElementById('ac-address').value=contact.address||'';document.getElementById('ac-hours').value=contact.hours||'';}
+      if(about){document.getElementById('aa-founder').value=about.founder||'';document.getElementById('aa-year').value=about.year||'';document.getElementById('aa-desc').value=about.description||'';document.getElementById('aa-vision').value=about.vision||'';}
+      if(guidelines) renderGuidelinesEditor(guidelines);
+      if(facilities) renderFacilitiesEditor(facilities);
+    } catch(e){console.log('Admin load error:',e);}
+  }
+
+  function showMsg(id,msg,isError=false){const el=document.getElementById('msg-'+id);el.textContent=msg;el.className='admin-save-msg'+(isError?' error':'');setTimeout(()=>el.textContent='',3000);}
+
+  async function savePricing(){const content={title:document.getElementById('ap-title').value,weekday_morning_time:document.getElementById('ap-wdMornTime').value,weekday_morning_price:document.getElementById('ap-wdMornPrice').value,weekday_evening_time:document.getElementById('ap-wdEveTime').value,weekday_evening_price:document.getElementById('ap-wdEvePrice').value,weekend_morning_time:document.getElementById('ap-weMornTime').value,weekend_morning_price:document.getElementById('ap-weMornPrice').value,weekend_evening_time:document.getElementById('ap-weEveTime').value,weekend_evening_price:document.getElementById('ap-weEvePrice').value};const ok=await sbSet('pricing',content);if(ok){renderPricing(content);showMsg('pricing','✅ Pricing saved!');}else showMsg('pricing','❌ Save failed',true);}
+  async function saveTimings(){const content={open_label:document.getElementById('at-openLabel').value,close_label:document.getElementById('at-closeLabel').value};const ok=await sbSet('timings',content);if(ok){renderTimings(content);showMsg('timings','✅ Timings saved!');}else showMsg('timings','❌ Save failed',true);}
+  async function saveContact(){const content={phone:document.getElementById('ac-phone').value,email:document.getElementById('ac-email').value,address:document.getElementById('ac-address').value,hours:document.getElementById('ac-hours').value};const ok=await sbSet('contact',content);if(ok){renderContact(content);showMsg('contact','✅ Contact saved!');}else showMsg('contact','❌ Save failed',true);}
+  async function saveAbout(){const content={founder:document.getElementById('aa-founder').value,year:document.getElementById('aa-year').value,description:document.getElementById('aa-desc').value,vision:document.getElementById('aa-vision').value};const ok=await sbSet('about',content);if(ok){renderAbout(content);showMsg('about','✅ About saved!');}else showMsg('about','❌ Save failed',true);}
+
+  let guidelinesData=[];
+  function renderGuidelinesEditor(rules){guidelinesData=JSON.parse(JSON.stringify(rules));const ed=document.getElementById('guidelinesEditor');ed.innerHTML=guidelinesData.map((r,i)=>`<div class="item-card"><div class="item-card-header"><span class="item-card-title">Guideline ${i+1}</span><button class="remove-btn" onclick="removeGuideline(${i})">Remove</button></div><div class="field-row"><div class="field-group"><label>Icon</label><input type="text" value="${r.icon}" onchange="guidelinesData[${i}].icon=this.value"/></div><div class="field-group"><label>Type (warn/danger/normal)</label><input type="text" value="${r.type}" onchange="guidelinesData[${i}].type=this.value"/></div></div><div class="field-group"><label>Title</label><input type="text" value="${r.title}" onchange="guidelinesData[${i}].title=this.value"/></div><div class="field-group"><label>Text</label><textarea rows="2" onchange="guidelinesData[${i}].text=this.value">${r.text}</textarea></div></div>`).join('');}
+  function addGuideline(){guidelinesData.push({icon:'📌',type:'normal',title:'New Guideline',text:'Description here'});renderGuidelinesEditor(guidelinesData);}
+  function removeGuideline(i){guidelinesData.splice(i,1);renderGuidelinesEditor(guidelinesData);}
+  async function saveGuidelines(){const ok=await sbSet('guidelines',guidelinesData);if(ok){renderGuidelines(guidelinesData);showMsg('guidelines','✅ Guidelines saved!');}else showMsg('guidelines','❌ Save failed',true);}
+
+  let facilitiesData=[];
+  function renderFacilitiesEditor(list){facilitiesData=JSON.parse(JSON.stringify(list));const ed=document.getElementById('facilitiesEditor');ed.innerHTML=facilitiesData.map((f,i)=>`<div class="item-card"><div class="item-card-header"><span class="item-card-title">Facility ${i+1}</span><button class="remove-btn" onclick="removeFacility(${i})">Remove</button></div><div class="field-row"><div class="field-group"><label>Icon</label><input type="text" value="${f.icon}" onchange="facilitiesData[${i}].icon=this.value"/></div><div class="field-group"><label>Name</label><input type="text" value="${f.name}" onchange="facilitiesData[${i}].name=this.value"/></div></div><div class="field-group"><label>Description</label><input type="text" value="${f.desc}" onchange="facilitiesData[${i}].desc=this.value"/></div></div>`).join('');}
+  function addFacility(){facilitiesData.push({icon:'⭐',name:'New Facility',desc:'Description here'});renderFacilitiesEditor(facilitiesData);}
+  function removeFacility(i){facilitiesData.splice(i,1);renderFacilitiesEditor(facilitiesData);}
+  async function saveFacilities(){const ok=await sbSet('facilities',facilitiesData);if(ok){renderFacilities(facilitiesData);showMsg('facilities','✅ Facilities saved!');}else showMsg('facilities','❌ Save failed',true);}
+
+  loadAll();
 </script>
 </body>
 </html>
